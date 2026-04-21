@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gestion-servicio-tecnico</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido</a>
+
+  <section id="loginScreen" class="login-shell">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-label="Logo ST Connect">
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+              <circle cx="12" cy="12" r="8"></circle>
+            </svg>
+          </div>
+          <div>
+            <h1>ST Connect</h1>
+            <small>Gestión interna de incidencias</small>
+          </div>
+        </div>
+        <div>
+          <h2>Acceso al sistema</h2>
+          <p>Entra como puesto, técnico de ST o jefe para acceder a la interfaz correspondiente.</p>
+        </div>
+      </div>
+
+      <form id="loginForm" class="form-grid">
+        <div class="field">
+          <label for="accessRole">Tipo de acceso</label>
+          <select id="accessRole" required>
+            <option value="">Selecciona un perfil</option>
+            <option value="puesto">Puesto</option>
+            <option value="st">Técnico ST</option>
+            <option value="jefe">Jefe ST</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="accessUser">Usuario</label>
+          <input id="accessUser" type="text" placeholder="Ej: TP01 o tecnico1" required />
+        </div>
+
+        <div class="field">
+          <label for="accessPassword">Contraseña</label>
+          <input id="accessPassword" type="password" placeholder="Introduce la contraseña" required />
+          <span class="helper">Esta demo no valida contraseñas reales; sirve para simular el flujo.</span>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Entrar al sistema</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="appScreen" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 12h14"></path>
+            <path d="M12 5v14"></path>
+            <circle cx="12" cy="12" r="8"></circle>
+          </svg>
+        </div>
+        <div>
+          <h1>ST Connect</h1>
+          <small>Panel operativo interno</small>
+        </div>
+      </div>
+
+      <nav class="nav" id="navMenu">
+        <button class="nav-btn active" data-page="dashboardPage">Resumen</button>
+        <button class="nav-btn" data-page="puestoPage">Puesto</button>
+        <button class="nav-btn" data-page="stPage">Panel ST</button>
+        <button class="nav-btn" data-page="historyPage">Histórico</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">Cambiar tema</button>
+        <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú">☰</button>
+        <div class="topbar-title">
+          <h2 id="pageTitle">Resumen</h2>
+          <p id="pageDescription">Estado general del sistema de incidencias.</p>
+        </div>
+        <div id="userChip" class="user-chip">Sin sesión</div>
+      </header>
+
+      <main id="main-content">
+        <section id="dashboardPage" class="page active">
+          <article class="hero-card">
+            <span class="pill">Operación centralizada</span>
+            <h3>Una sola base de trabajo para puestos, técnicos y supervisión.</h3>
+            <p>Esta demo muestra una versión web del sistema con login, vista de puesto, tablero ST, histórico, filtros y cambio de estados usando HTML, CSS y JavaScript puro.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" data-page-link="stPage">Abrir panel ST</button>
+              <button class="btn btn-secondary" data-page-link="puestoPage">Ir al panel de puesto</button>
+            </div>
+          </article>
+
+          <section class="metrics" aria-label="Métricas rápidas">
+            <article class="metric"><span class="metric-label">Activas</span><strong id="metricActivas">0</strong><p>Incidencias pendientes de atención.</p></article>
+            <article class="metric"><span class="metric-label">En curso</span><strong id="metricCurso">0</strong><p>Tickets ya asumidos por ST.</p></article>
+            <article class="metric"><span class="metric-label">Resueltas</span><strong id="metricResueltas">0</strong><p>Casos cerrados con informe final.</p></article>
+            <article class="metric"><span class="metric-label">Críticas</span><strong id="metricCriticas">0</strong><p>Incidencias con prioridad crítica.</p></article>
+          </section>
+        </section>
+
+        <section id="puestoPage" class="page">
+          <div class="grid-2">
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Nuevo aviso</h3>
+                  <p>El puesto solo debe introducir una descripción breve y la prioridad deseada.</p>
+                </div>
+              </div>
+
+              <form id="ticketForm" class="form-grid">
+                <div class="field">
+                  <label for="puestoInput">Puesto</label>
+                  <input id="puestoInput" type="text" placeholder="TP01" />
+                  <span class="helper">Si has iniciado sesión como puesto, este valor se rellena automáticamente.</span>
+                </div>
+
+                <div class="field">
+                  <label for="descriptionInput">Descripción</label>
+                  <textarea id="descriptionInput" placeholder="Ej: No enciende el monitor del puesto"></textarea>
+                </div>
+
+                <div class="field">
+                  <label for="priorityInput">Prioridad</label>
+                  <select id="priorityInput">
+                    <option value="Baja">Baja</option>
+                    <option value="Media" selected>Media</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Crítica">Crítica</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Registrar incidencia</button>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Últimas incidencias del puesto</h3>
+                  <p>Resumen rápido de las incidencias registradas desde este origen.</p>
+                </div>
+              </div>
+              <div id="puestoList" class="list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="stPage" class="page">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Tablero de incidencias</h3>
+                <p>Visualización operativa con filtros, prioridades y acciones de cambio de estado.</p>
+              </div>
+              <div class="filters">
+                <input id="searchInput" type="search" placeholder="Buscar por puesto o descripción" />
+                <select id="statusFilter">
+                  <option value="Todas">Todas</option>
+                  <option value="Activa">Activa</option>
+                  <option value="En curso">En curso</option>
+                  <option value="Resuelta">Resuelta</option>
+                </select>
+                <select id="priorityFilter">
+                  <option value="Todas">Todas las prioridades</option>
+                  <option value="Baja">Baja</option>
+                  <option value="Media">Media</option>
+                  <option value="Alta">Alta</option>
+                  <option value="Crítica">Crítica</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Puesto</th>
+                    <th>Descripción</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th>Fecha/Hora</th>
+                    <th>Técnico</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="ticketsTable"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section id="historyPage" class="page">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Histórico de incidencias resueltas</h3>
+                <p>Registro consolidado con resolución, técnico principal y trazabilidad básica.</p>
+              </div>
+            </div>
+            <div id="historyList" class="list"></div>
+            <div class="footer-note">En una versión conectada a backend, este apartado se alimentaría desde base de datos y permitiría exportación CSV por fecha o mes.</div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
