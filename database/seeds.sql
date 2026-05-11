@@ -33,11 +33,10 @@ VALUES
 
 
 -- (para probar triggers)
-SET st.usuario_activo = '3';
+SELECT set_config('st.usuario_activo', '3', true);
 -- CAMBIAR ESTADO 
 UPDATE incidencia
-SET estado = 'EN_CURSO',
-    st.usuario_activo = '3'
+SET estado = 'EN_CURSO'
 WHERE id_incidencia = 1;
 
 -- INFORME DE RESOLUCIÓN
@@ -49,8 +48,7 @@ VALUES
 UPDATE incidencia
 SET estado = 'RESUELTA',
     id_usuario_cierre = 3,
-    fecha_resolucion = CURRENT_TIMESTAMP,
-    st.usuario_activo = '3'
+    fecha_resolucion = CURRENT_TIMESTAMP
 WHERE id_incidencia = 1;
 
 -- Comprobar:

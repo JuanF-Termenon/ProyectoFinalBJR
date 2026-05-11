@@ -40,8 +40,10 @@ CREATE TABLE puesto (
 CREATE TABLE incidencia (
     id_incidencia SERIAL PRIMARY KEY,
     descripcion TEXT,
-    prioridad VARCHAR(10) NOT NULL DEFAULT 'MEDIA' CHECK (prioridad IN ('BAJA', 'MEDIA', 'ALTA', 'CRITICA')),
-    estado VARCHAR(15) NOT NULL DEFAULT 'ACTIVA' CHECK (estado IN ('ACTIVA', 'EN_CURSO', 'RESUELTA', 'REABIERTA', 'CANCELADA')),
+    prioridad VARCHAR(10) NOT NULL DEFAULT 'MEDIA'
+        CHECK (prioridad IN ('BAJA', 'MEDIA', 'ALTA', 'CRITICA')),
+    estado VARCHAR(15) NOT NULL DEFAULT 'ACTIVA'
+        CHECK (estado IN ('ACTIVA', 'EN_CURSO', 'RESUELTA', 'REABIERTA', 'CANCELADA')),
     
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_inicio_atencion TIMESTAMP,
@@ -69,7 +71,7 @@ CREATE TABLE asignacion (
     id_asignacion SERIAL PRIMARY KEY,
     fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_fin TIMESTAMP,
-    tipo_participacion VARCHAR(20) CHECK (tipo_participacion IN ('ASIGNADO', 'APOYO', 'SUPERVISION', 'CIERRE')),
+    tipo_participacion VARCHAR(20) NOT NULL CHECK (tipo_participacion IN ('ASIGNADO', 'APOYO', 'SUPERVISION', 'CIERRE')),
 
     id_incidencia INT NOT NULL,
     id_usuario_st INT NOT NULL,
@@ -96,7 +98,7 @@ CREATE TABLE informe_resolucion (
     CONSTRAINT fk_informe_incidencia
         FOREIGN KEY (id_incidencia)
         REFERENCES incidencia(id_incidencia)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_informe_usuario
         FOREIGN KEY (id_usuario_st)
@@ -106,7 +108,8 @@ CREATE TABLE informe_resolucion (
 -- Historial
 CREATE TABLE historial_incidencia (
     id_historial SERIAL PRIMARY KEY,
-    accion VARCHAR(50) NOT NULL CHECK (accion IN ('CREAR', 'CAMBIAR_ESTADO', 'ASIGNAR', 'RESOLVER', 'REABRIR', 'CANCELAR')),
+    accion VARCHAR(50) NOT NULL
+        CHECK (accion IN ('CREAR', 'CAMBIAR_ESTADO', 'ASIGNAR', 'RESOLVER', 'REABRIR', 'CANCELAR')),
     estado_anterior VARCHAR(15),
     estado_nuevo VARCHAR(15),
     comentario TEXT,
@@ -118,7 +121,7 @@ CREATE TABLE historial_incidencia (
     CONSTRAINT fk_historial_incidencia
         FOREIGN KEY (id_incidencia)
         REFERENCES incidencia(id_incidencia)
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
 
     CONSTRAINT fk_historial_usuario
         FOREIGN KEY (id_usuario)
@@ -128,9 +131,9 @@ CREATE TABLE historial_incidencia (
 -- Auditoria
 CREATE TABLE auditoria (
     id_auditoria SERIAL PRIMARY KEY,
-    tabla_objetivo VARCHAR(50),
-    registro_id INT,
-    operacion VARCHAR(20),
+    tabla_objetivo VARCHAR(50) NOT NULL,
+    registro_id INT NOT NULL,
+    operacion VARCHAR(20) NOT NULL,
     campo VARCHAR(50),
     valor_anterior TEXT,
     valor_nuevo TEXT,
@@ -156,13 +159,14 @@ DECLARE
 BEGIN
     -- Obtenemos el usuario de la sesión
     v_usuario_id := NULLIF(current_setting('st.usuario_activo', true),'')::INT;
+
     IF v_usuario_id IS NULL THEN
         RAISE EXCEPTION 'Error de seguridad: Toda acción debe tener un usuario asociado.';
     END IF;
 
-    -- TG_OP
     IF (TG_OP = 'INSERT') THEN
         v_accion := 'CREAR';
+
     ELSIF (TG_OP = 'UPDATE') THEN
         CASE 
             WHEN NEW.estado = 'RESUELTA' THEN v_accion := 'RESOLVER';
@@ -186,6 +190,7 @@ BEGIN
         NEW.id_incidencia,
         v_usuario_id
     );
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -207,6 +212,7 @@ RETURNS TRIGGER AS $$
 DECLARE
     v_usuario_id INT;
 BEGIN
+    
     v_usuario_id := NULLIF(current_setting('st.usuario_activo', true),'')::INT;
 
     IF v_usuario_id IS NULL THEN
@@ -214,12 +220,15 @@ BEGIN
     END IF;
 
     INSERT INTO historial_incidencia (
-        accion, id_incidencia, id_usuario
+        accion,
+        id_incidencia,
+        id_usuario
     ) VALUES (
         'ASIGNAR', 
         NEW.id_incidencia,
         v_usuario_id
     );
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -236,24 +245,17 @@ DECLARE
     v_registro_id INT;
 BEGIN
 
-    v_usuario_id := NULLIF(
-        current_setting('st.usuario_activo', true),
-        ''
-    )::INT;
+     v_usuario_id := NULLIF(current_setting('st.usuario_activo', true),'')::INT;
+
+    IF v_usuario_id IS NULL THEN
+        RAISE EXCEPTION 'Error de seguridad: Toda acción debe tener un usuario asociado.';
+    END IF;
 
     IF TG_TABLE_NAME = 'incidencia' THEN
-
-        v_registro_id := COALESCE(
-            NEW.id_incidencia,
-            OLD.id_incidencia
-        );
+        v_registro_id := COALESCE(NEW.id_incidencia, OLD.id_incidencia);
 
     ELSIF TG_TABLE_NAME = 'usuario' THEN
-
-        v_registro_id := COALESCE(
-            NEW.id_usuario,
-            OLD.id_usuario
-        );
+        v_registro_id := COALESCE(NEW.id_usuario, OLD.id_usuario);
 
     ELSE
         RAISE EXCEPTION 'Tabla no soportada por auditoría: %', TG_TABLE_NAME;
@@ -323,7 +325,7 @@ BEGIN
         NEW.fecha_resolucion := CURRENT_TIMESTAMP;
     END IF;
 
-    IF NEW.estado = 'REABIERTA' THEN
+    IF NEW.estado = 'REABIERTA' AND OLD.estado IS DISTINCT FROM 'REABIERTA' THEN
         NEW.fecha_resolucion := NULL;
         NEW.id_usuario_cierre := NULL;
     END IF;
