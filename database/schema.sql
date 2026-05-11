@@ -237,7 +237,7 @@ CREATE TRIGGER trg_historial_asignacion
 AFTER INSERT ON asignacion
 FOR EACH ROW EXECUTE FUNCTION fn_historial_asignacion();
 
--- Registrar INSERT / UPDATE / DELETE en tablas.
+-- Registrar INSERT / UPDATE / DELETE en tabla incidencia y usuario.
 CREATE OR REPLACE FUNCTION fn_auditoria()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -253,9 +253,6 @@ BEGIN
 
     IF TG_TABLE_NAME = 'incidencia' THEN
         v_registro_id := COALESCE(NEW.id_incidencia, OLD.id_incidencia);
-
-    ELSIF TG_TABLE_NAME = 'usuario' THEN
-        v_registro_id := COALESCE(NEW.id_usuario, OLD.id_usuario);
 
     ELSE
         RAISE EXCEPTION 'Tabla no soportada por auditoría: %', TG_TABLE_NAME;
@@ -286,10 +283,6 @@ CREATE TRIGGER trg_auditoria_incidencia
 AFTER INSERT OR UPDATE OR DELETE ON incidencia
 FOR EACH ROW
 EXECUTE FUNCTION fn_auditoria();
-
-CREATE TRIGGER trg_auditoria_usuario
-AFTER INSERT OR UPDATE OR DELETE ON usuario
-FOR EACH ROW EXECUTE FUNCTION fn_auditoria();
 
 -- Evitar cerrar incidencia sin informe
 CREATE OR REPLACE FUNCTION fn_validar_cierre()
