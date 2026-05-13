@@ -14,9 +14,9 @@ CREATE TABLE usuario (
     nombre_visible VARCHAR(100),
     activo BOOLEAN DEFAULT TRUE,
     primer_acceso BOOLEAN DEFAULT TRUE,
-    ultimo_login TIMESTAMP,
-    id_rol INT NOT NULL,
+    ultimo_login TIMESTAMP DEFAULT NOW(),
 
+    id_rol INT NOT NULL,
     CONSTRAINT fk_usuario_rol
         FOREIGN KEY (id_rol)
         REFERENCES rol(id_rol)
@@ -25,12 +25,11 @@ CREATE TABLE usuario (
 -- Puesto
 CREATE TABLE puesto (
     id_puesto SERIAL PRIMARY KEY,
-    id_usuario INT UNIQUE,
     codigo_puesto VARCHAR(50) NOT NULL UNIQUE,
     departamento VARCHAR(100),
-    descripcion TEXT,
     activo BOOLEAN DEFAULT TRUE,
 
+    id_usuario INT,
     CONSTRAINT fk_puesto_usuario
         FOREIGN KEY (id_usuario)
         REFERENCES usuario(id_usuario)

@@ -66,7 +66,7 @@ public class Login extends JFrame {
         lblTipo.setBounds(54, 69, 150, 14);
         contentPane.add(lblTipo);
 
-        String[] perfiles = { "Selecciona un perfil", "Puesto", "Técnico ST", "Jefe ST" };
+        String[] perfiles = { "Selecciona un perfil", "Técnico ST", "Jefe ST" };
         seleccionarPerfil = new JComboBox<>(perfiles);
         seleccionarPerfil.setBounds(64, 94, 295, 22);
         contentPane.add(seleccionarPerfil);
