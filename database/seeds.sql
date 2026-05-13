@@ -33,7 +33,7 @@ VALUES
 
 
 -- (para probar triggers)
-SELECT set_config('st.usuario_activo', '3', true);
+SET st.usuario_activo = '1';
 -- CAMBIAR ESTADO 
 UPDATE incidencia
 SET estado = 'EN_CURSO'
