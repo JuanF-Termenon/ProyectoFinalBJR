@@ -15,7 +15,7 @@ public class UserTestQuery {
 
     public static void main(String[] args) {
 
-        String sql = "SELECT id_usuario, username, nombre_visible FROM usuario";
+        String sql = "SELECT id_usuario, username, nombre_visible, password_hash FROM usuario";
 
         try (
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -30,8 +30,9 @@ public class UserTestQuery {
                 int id = rs.getInt("id_usuario");
                 String username = rs.getString("username");
                 String nombre = rs.getString("nombre_visible");
+                String pass = rs.getString("password_hash");
 
-                System.out.println(id + " - " + username + " - " + nombre);
+                System.out.println(id + " - " + username + " - " + nombre + " - " + pass);
             }
 
         } catch (Exception e) {

@@ -61,8 +61,7 @@ public class UsuarioRepository {
 					Rol rol = new Rol(rs.getInt("id_rol"), rs.getString("nombre_rol"), rs.getString("rol_desc"));
 
 					return new Usuario(rs.getInt("id_usuario"), rs.getString("username"), rs.getString("password_hash"),
-							rs.getString("nombre_visible"), rs.getBoolean("activo"), rs.getBoolean("primer_acceso"), // [cite:
-																														// 247]
+							rs.getString("nombre_visible"), rs.getBoolean("activo"), rs.getBoolean("primer_acceso"),																							
 							rs.getTimestamp("ultimo_login"), rol);
 				}
 			}

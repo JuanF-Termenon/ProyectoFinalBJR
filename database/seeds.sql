@@ -1,23 +1,16 @@
 -- ROLES
 INSERT INTO rol (nombre_rol, descripcion) VALUES
-('OPERARIO', 'Usuario de puesto'),
-('TECNICO', 'Técnico de servicio técnico'),
-('JEFE_ST', 'Supervisor del servicio técnico'),
-('ADMIN', 'Administrador del sistema');
+(1, 'Jefe ST', 'Administrador total del sistema'),
+(2, 'Técnico ST', 'Personal técnico de soporte');
 
 -- USUARIOS
 INSERT INTO usuario (username, password_hash, nombre_visible, id_rol) VALUES
-('tp01', 'hash1', 'Puesto TP01', 1),
-('tp02', 'hash2', 'Puesto TP02', 1),
-('tecnico1', 'hash3', 'Juan Técnico', 2),
-('tecnico2', 'hash4', 'Ana Técnica', 2),
-('jefe', 'hash5', 'Jefe ST', 3),
-('admin', 'hash6', 'Administrador', 4);
+('bbjf', '321efejst', 'Bebe Jefazo', 1),
+('tectec', '321cetst', 'Tec Tec', 2);
 
 -- PUESTOS
 INSERT INTO puesto (codigo_puesto, departamento, descripcion, id_usuario) VALUES
-('TP01', 'Producción', 'Prensa hidráulica 1', 1),
-('TP02', 'Producción', 'Línea de montaje 2', 2);
+(1, 'Central-01', 'Oficina Principal');
 
 -- INCIDENCIAS
 INSERT INTO incidencia (descripcion, prioridad, estado, id_puesto, id_usuario_creador)
