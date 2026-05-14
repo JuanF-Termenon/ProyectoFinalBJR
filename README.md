@@ -24,7 +24,7 @@ El acceso se controla mediante permisos específicos según el perfil:
 
 ## ⚙️ Ciclo de Vida de la Incidencia
 Las incidencias se gestionan a través de estados visuales:
-1. **Activa (Rojo)**: Registrada y pendiente de atención.
+1. **En espera (Rojo)**: Registrada y pendiente de atención.
 2. **En curso (Amarillo/Naranja)**: Técnicos trabajando formalmente en ella.
 3. **Resuelta (Verde)**: Solucionada tras completar el informe técnico de resolución obligatorio.
 
