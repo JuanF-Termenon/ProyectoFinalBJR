@@ -36,6 +36,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel modelo;
+	private int filaSeleccionada;
 	private Login login;
 	private Usuario user;
 
@@ -48,7 +49,7 @@ public class VentanaPrincipal extends JFrame {
 		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 		int ancho = (int) pantalla.getWidth();
 		int alto = (int) pantalla.getHeight();
-		this.setBounds(150, 50, 932, 617);
+		this.setBounds(150, 50, 1096, 642);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -56,7 +57,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 102, 153));
-		panel.setBounds(10, 11, 898, 76);
+		panel.setBounds(10, 11, 1062, 76);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -69,35 +70,35 @@ public class VentanaPrincipal extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("ACTIVAS");
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(629, 11, 51, 16);
+		lblNewLabel_1.setBounds(783, 11, 51, 16);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("EN CURSO");
 		lblNewLabel_1_1.setForeground(Color.WHITE);
-		lblNewLabel_1_1.setBounds(719, 11, 62, 16);
+		lblNewLabel_1_1.setBounds(873, 11, 62, 16);
 		panel.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("RESUELTAS");
 		lblNewLabel_1_2.setForeground(Color.WHITE);
-		lblNewLabel_1_2.setBounds(814, 11, 72, 16);
+		lblNewLabel_1_2.setBounds(966, 11, 72, 16);
 		panel.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_2 = new JLabel("0");
 		lblNewLabel_2.setForeground(new Color(204, 0, 0));
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(649, 35, 38, 25);
+		lblNewLabel_2.setBounds(803, 38, 38, 25);
 		panel.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("0");
 		lblNewLabel_2_1.setForeground(new Color(204, 255, 0));
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2_1.setBounds(743, 35, 38, 25);
+		lblNewLabel_2_1.setBounds(898, 38, 38, 25);
 		panel.add(lblNewLabel_2_1);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("0");
 		lblNewLabel_2_2.setForeground(new Color(0, 204, 0));
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2_2.setBounds(839, 34, 38, 25);
+		lblNewLabel_2_2.setBounds(992, 38, 38, 25);
 		panel.add(lblNewLabel_2_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Estado:");
@@ -249,12 +250,29 @@ public class VentanaPrincipal extends JFrame {
 				
 			}
 		});
-		scrollPane.setBounds(10, 182, 898, 387);
+		scrollPane.setBounds(10, 210, 1062, 387);
 		contentPane.add(scrollPane);
 		
 		table = new JTable(modelo);
 		scrollPane.setViewportView(table);
 		table.setRowHeight(35);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filaSeleccionada = table.getSelectedRow();
+				VentanaEditar ve = new VentanaEditar(modelo, filaSeleccionada);
+				
+				ve.setVisible(true);
+			}
+		});
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnEditar.setFocusPainted(false);
+		btnEditar.setBorderPainted(false);
+		btnEditar.setBackground(new Color(0, 102, 153));
+		btnEditar.setBounds(927, 104, 145, 32);
+		contentPane.add(btnEditar);
 		
 		
 
