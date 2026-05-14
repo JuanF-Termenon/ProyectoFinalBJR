@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.st.models.Usuario;
+import com.st.repositories.IncidenciaRepository;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,6 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class VentanaIncidencia extends JFrame {
@@ -27,10 +31,12 @@ public class VentanaIncidencia extends JFrame {
 	private JTextField inputDpt;
 	private JTextField inputDescripcion;
 	private JTextField inputReportadoPor;
+	private JComboBox comboPrioridad;
 	private VentanaPrincipal ventana;
 	private DefaultTableModel modelo;
+	private Usuario user;
 
-	public VentanaIncidencia(VentanaPrincipal ventana, DefaultTableModel modelo) {
+	public VentanaIncidencia(VentanaPrincipal ventana, DefaultTableModel modelo, Usuario user) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(410, 100, 450, 520);
 		contentPane = new JPanel();
@@ -40,6 +46,7 @@ public class VentanaIncidencia extends JFrame {
 		
 		this.ventana = ventana;
 		this.modelo = modelo;
+		this.user = user;
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 102, 153));
@@ -118,29 +125,19 @@ public class VentanaIncidencia extends JFrame {
 		btnCancelar.setBounds(153, 426, 88, 46);
 		contentPane.add(btnCancelar);
 		
-		JComboBox comboPrioridad = new JComboBox(new String[] {"ALTA", "MEDIA", "BAJA"});
+		comboPrioridad = new JComboBox(new String[] {"ALTA", "MEDIA", "BAJA"});
 		comboPrioridad.setBounds(231, 164, 183, 31);
 		contentPane.add(comboPrioridad);
 		
 		JButton btnGuardarIncidencia = new JButton("Guardar Incidencia");
 		btnGuardarIncidencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String titulo = inputTitulo.getText();
-				String departamento = inputDpt.getText();
-				String prioridad = (String) comboPrioridad.getSelectedItem();
-				String descripcion = inputDescripcion.getText();
-				String reportadoPor = inputReportadoPor.getText();
-				String categoria = (String) comboCategoria.getSelectedItem();
-				LocalDateTime ahora = LocalDateTime.now();
-
-				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
-				String fechaFormateada = ahora.format(formato);
-				
-				Object[] nuevaFila =  {titulo, titulo, departamento, prioridad, "ABIERTA", reportadoPor, fechaFormateada};
-				
-				modelo.addRow(nuevaFila);
-				VentanaIncidencia.this.dispose();
+				try {
+					guardar();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnGuardarIncidencia.setBackground(new Color(0, 102, 153));
@@ -153,5 +150,12 @@ public class VentanaIncidencia extends JFrame {
 		
 	}
 	
-	
+	public void guardar() throws SQLException {
+			String descripcion = inputDescripcion.getText();
+			String prioridad = (String) comboPrioridad.getSelectedItem();
+			
+			IncidenciaRepository repo = new IncidenciaRepository();
+			repo.reportarIncidencia(descripcion, prioridad, user.getRol().getIdRol(), user.getIdUsuario());
+
+	}
 }

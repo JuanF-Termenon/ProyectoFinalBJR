@@ -125,7 +125,7 @@ public class Login extends JFrame {
             if (user != null) {
                 // Comprobamos que el rol coincida con el perfil del combo
                 if (user.getRol().getNombreRol().equalsIgnoreCase(perfilSeleccionado)) {
-                    VentanaPrincipal principal = new VentanaPrincipal(this);
+                    VentanaPrincipal principal = new VentanaPrincipal(this, user);
                     principal.setVisible(true);
                     this.dispose();
                 } else {

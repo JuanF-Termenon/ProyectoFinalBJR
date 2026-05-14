@@ -2,6 +2,7 @@ package vista;
 import java.awt.Toolkit;
 import com.st.repositories.IncidenciaRepository;
 import com.st.models.Incidencia;
+import com.st.models.Usuario;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -36,11 +37,13 @@ public class VentanaPrincipal extends JFrame {
 	private JTable table;
 	private DefaultTableModel modelo;
 	private Login login;
+	private Usuario user;
 
 	private IncidenciaRepository repo = new IncidenciaRepository();
-	public VentanaPrincipal(Login login) {
+	public VentanaPrincipal(Login login, Usuario user) {
 		this.login = login;
-		
+		this.user = user;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 		int ancho = (int) pantalla.getWidth();
@@ -184,7 +187,7 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnNuevaIncidencia = new JButton("+ Nueva Incidencia");
 		btnNuevaIncidencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaIncidencia incidencia = new VentanaIncidencia(VentanaPrincipal.this, modelo);
+				VentanaIncidencia incidencia = new VentanaIncidencia(VentanaPrincipal.this, modelo, user);
 				
 				incidencia.setVisible(true);
 			}
