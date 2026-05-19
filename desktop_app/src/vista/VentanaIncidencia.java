@@ -37,6 +37,7 @@ public class VentanaIncidencia extends JFrame {
 	private Usuario user;
 
 	public VentanaIncidencia(VentanaPrincipal ventana, DefaultTableModel modelo, Usuario user) {
+		setTitle("BJR Technician Services");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(410, 100, 450, 520);
 		contentPane = new JPanel();

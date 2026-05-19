@@ -11,11 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import jdk.javadoc.doclet.Reporter;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -42,6 +45,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private IncidenciaRepository repo = new IncidenciaRepository();
 	public VentanaPrincipal(Login login, Usuario user) {
+		setTitle("BJR Technician Services");
 		this.login = login;
 		this.user = user;
 
@@ -70,17 +74,17 @@ public class VentanaPrincipal extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("ACTIVAS");
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(783, 11, 51, 16);
+		lblNewLabel_1.setBounds(783, 11, 72, 16);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("EN CURSO");
 		lblNewLabel_1_1.setForeground(Color.WHITE);
-		lblNewLabel_1_1.setBounds(873, 11, 62, 16);
+		lblNewLabel_1_1.setBounds(873, 11, 83, 16);
 		panel.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("RESUELTAS");
 		lblNewLabel_1_2.setForeground(Color.WHITE);
-		lblNewLabel_1_2.setBounds(966, 11, 72, 16);
+		lblNewLabel_1_2.setBounds(966, 11, 86, 16);
 		panel.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_2 = new JLabel("0");
@@ -244,12 +248,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				
-			}
-		});
+		
 		scrollPane.setBounds(10, 210, 1062, 387);
 		contentPane.add(scrollPane);
 		
@@ -257,13 +256,24 @@ public class VentanaPrincipal extends JFrame {
 		scrollPane.setViewportView(table);
 		table.setRowHeight(35);
 		
+		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filaSeleccionada = table.getSelectedRow();
-				VentanaEditar ve = new VentanaEditar(modelo, filaSeleccionada);
-				
-				ve.setVisible(true);
+				int filaVista = table.getSelectedRow();
+		       
+		        if (filaVista == -1) {
+		            JOptionPane.showMessageDialog(null, 
+		                "Por favor, selecciona una fila de la tabla para editar.", 
+		                "Aviso", 
+		                JOptionPane.WARNING_MESSAGE);
+		            return;
+		        }
+
+		        filaSeleccionada = table.convertRowIndexToModel(filaVista);
+
+		        VentanaEditar ve = new VentanaEditar(modelo, filaSeleccionada);
+		        ve.setVisible(true);
 			}
 		});
 		btnEditar.setForeground(Color.WHITE);

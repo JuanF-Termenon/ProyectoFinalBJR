@@ -41,7 +41,7 @@ public class Login extends JFrame {
     }
 
     public Login() {
-        setTitle("ST Connect - Acceso");
+        setTitle("BJR Technician Services");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 100, 450, 376);
         contentPane = new JPanel();

@@ -7,11 +7,19 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.st.repositories.IncidenciaRepository;
+
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class VentanaEditar extends JFrame {
 
@@ -26,7 +34,7 @@ public class VentanaEditar extends JFrame {
 	private JLabel lblPrioridad;
 	private JLabel lblCategoria;
 	private JLabel lblReportadoPor;
-	private JLabel lblFechaCreacion;
+	private JComboBox<String> comboBox;
 	/**
 	 * Launch the application.
 	 */
@@ -36,9 +44,10 @@ public class VentanaEditar extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaEditar(DefaultTableModel modelo, int filaSeleccionada) {
+		setTitle("BJR Technician Services");
 		this.modelo = modelo;
 		this.filaSeleccionada = filaSeleccionada;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 492, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,79 +67,114 @@ public class VentanaEditar extends JFrame {
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("ID");
-		lblNewLabel_1.setBounds(10, 78, 48, 14);
+		lblNewLabel_1.setBounds(10, 89, 48, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblID = new JLabel("New label");
-		lblID.setBounds(10, 108, 48, 14);
+		lblID = new JLabel("New label");
+		lblID.setForeground(new Color(128, 128, 128));
+		lblID.setBounds(20, 113, 266, 14);
 		contentPane.add(lblID);
 		
 		JLabel lblNewLabel_2 = new JLabel("Titulo");
 		lblNewLabel_2.setBounds(10, 150, 48, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		JLabel lblTitulo = new JLabel("New label");
-		lblTitulo.setBounds(10, 175, 48, 14);
+		lblTitulo = new JLabel("New label");
+		lblTitulo.setForeground(new Color(128, 128, 128));
+		lblTitulo.setBounds(20, 175, 333, 14);
 		contentPane.add(lblTitulo);
 		
 		JLabel lblNewLabel_3 = new JLabel("Departamento");
-		lblNewLabel_3.setBounds(10, 212, 48, 14);
+		lblNewLabel_3.setBounds(10, 212, 118, 14);
 		contentPane.add(lblNewLabel_3);
 		
-		JLabel lblDepartamento = new JLabel("New label");
-		lblDepartamento.setBounds(10, 231, 48, 14);
+		lblDepartamento = new JLabel("New label");
+		lblDepartamento.setForeground(new Color(128, 128, 128));
+		lblDepartamento.setBounds(20, 237, 266, 14);
 		contentPane.add(lblDepartamento);
 		
 		JLabel lblNewLabel_4 = new JLabel("Prioridad");
-		lblNewLabel_4.setBounds(10, 266, 48, 14);
+		lblNewLabel_4.setBounds(10, 266, 76, 14);
 		contentPane.add(lblNewLabel_4);
 		
-		JLabel lblPrioridad = new JLabel("New label");
-		lblPrioridad.setBounds(10, 288, 48, 14);
+		lblPrioridad = new JLabel("New label");
+		lblPrioridad.setForeground(new Color(128, 128, 128));
+		lblPrioridad.setBounds(20, 288, 266, 14);
 		contentPane.add(lblPrioridad);
 		
 		JLabel lblNewLabel_5 = new JLabel("Descripcion");
-		lblNewLabel_5.setBounds(10, 324, 48, 14);
+		lblNewLabel_5.setBounds(10, 324, 76, 14);
 		contentPane.add(lblNewLabel_5);
 		
-		JLabel lblDescripcion = new JLabel("New label");
-		lblDescripcion.setBounds(10, 349, 48, 14);
+		lblDescripcion = new JLabel("New label");
+		lblDescripcion.setForeground(new Color(128, 128, 128));
+		lblDescripcion.setBounds(20, 349, 266, 14);
 		contentPane.add(lblDescripcion);
 		
-		JLabel lblNewLabel_7 = new JLabel("Reportado por");
-		lblNewLabel_7.setBounds(10, 386, 48, 14);
-		contentPane.add(lblNewLabel_7);
-		
-		JLabel lblReportadoPor = new JLabel("");
-		lblReportadoPor.setBounds(10, 410, 48, 14);
+		lblReportadoPor = new JLabel("");
+		lblReportadoPor.setForeground(new Color(128, 128, 128));
+		lblReportadoPor.setBounds(20, 410, 266, 14);
 		contentPane.add(lblReportadoPor);
 		
 		JLabel lblNewLabel_6 = new JLabel("Fecha Creación");
-		lblNewLabel_6.setBounds(10, 441, 48, 14);
+		lblNewLabel_6.setBounds(10, 385, 76, 14);
 		contentPane.add(lblNewLabel_6);
 		
-		JLabel lblFechaCreacion = new JLabel("New label");
-		lblFechaCreacion.setBounds(10, 466, 48, 14);
-		contentPane.add(lblFechaCreacion);
-		
 		JLabel lblNewLabel_8 = new JLabel("Categoria");
-		lblNewLabel_8.setBounds(292, 192, 48, 14);
+		lblNewLabel_8.setBounds(292, 212, 106, 14);
 		contentPane.add(lblNewLabel_8);
 		
-		JLabel lblCategoria = new JLabel("New label");
-		lblCategoria.setBounds(292, 212, 48, 14);
+		lblCategoria = new JLabel("New label");
+		lblCategoria.setForeground(new Color(128, 128, 128));
+		lblCategoria.setBounds(302, 231, 156, 14);
 		contentPane.add(lblCategoria);
 		
 		JLabel lblNewLabel_9 = new JLabel("Estado");
 		lblNewLabel_9.setBounds(292, 266, 48, 14);
 		contentPane.add(lblNewLabel_9);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(292, 291, 114, 22);
-		contentPane.add(scrollPane);
+		comboBox = new JComboBox(new String[] {"ABIERTA", "EN_PROGRESO", "RESUELTA", "CERRADA"});
+		comboBox.setBounds(290, 295, 118, 22);
+		contentPane.add(comboBox);
 		
-		JComboBox comboBox = new JComboBox(new String[] {"ABIERTA", "EN_PROGRESO", "RESUELTA", "CERRADA"});
-		scrollPane.setViewportView(comboBox);
+		JButton btnNewButton = new JButton("Eliminar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelo.removeRow(filaSeleccionada);
+				
+				JOptionPane.showMessageDialog(null, "Se ha eliminado la incidencia correctamente.");
+				
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(190, 464, 126, 36);
+		contentPane.add(btnNewButton);
+		
+		JButton btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        try {
+		        	String nuevoEstado = comboBox.getSelectedItem().toString();
+			        
+			        modelo.setValueAt(nuevoEstado, filaSeleccionada, 4);
+			        
+			        JOptionPane.showMessageDialog(null, 
+			            "El estado de la incidencia se ha actualizado correctamente.", 
+			            "Cambios Guardados", JOptionPane.INFORMATION_MESSAGE);
+			        
+		        	IncidenciaRepository incidencia = new IncidenciaRepository();
+					incidencia.actualizarEstado(filaSeleccionada, nuevoEstado, null);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "ERROR: No se ha podido actualizar la incidencia.");
+				}
+
+		        dispose();
+			}
+		});
+		btnGuardarCambios.setBounds(332, 464, 126, 36);
+		contentPane.add(btnGuardarCambios);
 		
 		cargarLabels();
 
@@ -138,13 +182,13 @@ public class VentanaEditar extends JFrame {
 	
 	public void cargarLabels() {
 	    
-	    lblID.setText(modelo.getValueAt(filaSeleccionada, 0).toString());
+		lblID.setText(modelo.getValueAt(filaSeleccionada, 0).toString());
 	    lblTitulo.setText(modelo.getValueAt(filaSeleccionada, 1).toString());
 	    lblDepartamento.setText(modelo.getValueAt(filaSeleccionada, 2).toString());
 	    lblPrioridad.setText(modelo.getValueAt(filaSeleccionada, 3).toString());
-	    lblCategoria.setText(modelo.getValueAt(filaSeleccionada, 4).toString());
-	    lblReportadoPor.setText(modelo.getValueAt(filaSeleccionada, 5).toString());
-	    lblFechaCreacion.setText(modelo.getValueAt(filaSeleccionada, 6).toString());
+	    lblDescripcion.setText(modelo.getValueAt(filaSeleccionada, 4).toString());
+	    lblCategoria.setText(modelo.getValueAt(filaSeleccionada, 5).toString());
+	    lblReportadoPor.setText(modelo.getValueAt(filaSeleccionada, 6).toString());
 	    
 	}
 }
