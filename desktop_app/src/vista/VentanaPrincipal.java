@@ -50,10 +50,8 @@ public class VentanaPrincipal extends JFrame {
 		this.user = user;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-		int ancho = (int) pantalla.getWidth();
-		int alto = (int) pantalla.getHeight();
 		this.setBounds(150, 50, 1096, 642);
+		this.setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

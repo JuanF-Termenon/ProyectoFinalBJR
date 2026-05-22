@@ -44,6 +44,7 @@ public class Login extends JFrame {
         setTitle("BJR Technician Services");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 100, 450, 376);
+        this.setLocationRelativeTo(null);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
