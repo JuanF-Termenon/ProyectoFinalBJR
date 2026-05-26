@@ -1,7 +1,4 @@
 package vista;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.st.models.Usuario;
 import com.st.repositories.IncidenciaRepository;
+import com.st.repositories.PuestoRepository;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -22,15 +20,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 
 public class VentanaIncidencia extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField inputTitulo;
-	private JTextField inputDpt;
+	private JComboBox comboDepartamento;
 	private JTextField inputDescripcion;
-	private JTextField inputReportadoPor;
 	private JComboBox comboPrioridad;
 	private VentanaPrincipal ventana;
 	private DefaultTableModel modelo;
@@ -39,7 +36,7 @@ public class VentanaIncidencia extends JFrame {
 	public VentanaIncidencia(VentanaPrincipal ventana, DefaultTableModel modelo, Usuario user) {
 		setTitle("BJR Technician Services");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(410, 100, 450, 520);
+		setBounds(410, 100, 450, 430);
 		this.setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,73 +59,56 @@ public class VentanaIncidencia extends JFrame {
 		lblNewLabel.setBounds(131, 11, 199, 42);
 		panel.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Titulo *");
-		lblNewLabel_1.setBounds(20, 72, 48, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblDepartamento = new JLabel("Departamento *");
+		lblDepartamento.setBounds(20, 72, 100, 14);
+		contentPane.add(lblDepartamento);
 		
-		inputTitulo = new JTextField();
-		inputTitulo.setBounds(20, 97, 394, 31);
-		contentPane.add(inputTitulo);
-		inputTitulo.setColumns(10);
+		comboDepartamento = new JComboBox();
+		try {
+			PuestoRepository pRepo = new PuestoRepository();
+			for (var d : pRepo.findAllDepartamentos()) {
+				comboDepartamento.addItem(d);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+				"Error al cargar departamentos: " + ex.getMessage(),
+				"Error BD", JOptionPane.ERROR_MESSAGE);
+		}
+		comboDepartamento.setBounds(20, 92, 183, 31);
+		contentPane.add(comboDepartamento);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Departamento *");
-		lblNewLabel_1_1.setBounds(20, 139, 81, 14);
-		contentPane.add(lblNewLabel_1_1);
+		JLabel lblPrioridad = new JLabel("Prioridad *");
+		lblPrioridad.setBounds(231, 72, 81, 14);
+		contentPane.add(lblPrioridad);
 		
-		inputDpt = new JTextField();
-		inputDpt.setColumns(10);
-		inputDpt.setBounds(20, 164, 183, 31);
-		contentPane.add(inputDpt);
-		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Prioridad *");
-		lblNewLabel_1_1_1.setBounds(231, 139, 81, 14);
-		contentPane.add(lblNewLabel_1_1_1);
-		
-		JLabel lblNewLabel_1_1_2 = new JLabel("Descripcion *");
-		lblNewLabel_1_1_2.setBounds(20, 206, 81, 14);
-		contentPane.add(lblNewLabel_1_1_2);
+		JLabel lblDescripcion = new JLabel("Descripcion *");
+		lblDescripcion.setBounds(20, 140, 81, 14);
+		contentPane.add(lblDescripcion);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(20, 231, 394, 46);
+		scrollPane.setBounds(20, 165, 394, 46);
 		contentPane.add(scrollPane);
 		
 		inputDescripcion = new JTextField();
 		scrollPane.setViewportView(inputDescripcion);
 		inputDescripcion.setColumns(10);
 		
-		JLabel lblNewLabel_1_1_2_1 = new JLabel("Reportado por *");
-		lblNewLabel_1_1_2_1.setBounds(20, 288, 81, 14);
-		contentPane.add(lblNewLabel_1_1_2_1);
-		
-		inputReportadoPor = new JTextField();
-		inputReportadoPor.setColumns(10);
-		inputReportadoPor.setBounds(20, 313, 394, 31);
-		contentPane.add(inputReportadoPor);
-		
-		JLabel lblNewLabel_1_1_2_1_1 = new JLabel("Categoria *");
-		lblNewLabel_1_1_2_1_1.setBounds(20, 355, 81, 14);
-		contentPane.add(lblNewLabel_1_1_2_1_1);
-		
-		JComboBox comboCategoria = new JComboBox(new String[] {"HARDWARE", "SOFTWARE", "RED", "SEGURIDAD", "OTRO"});
-	
-		comboCategoria.setBounds(20, 380, 394, 32);
-		contentPane.add(comboCategoria);
-		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaIncidencia.this.setVisible(false);
+				dispose();
 			}
 		});
 		btnCancelar.setBackground(Color.WHITE);
 		btnCancelar.setBorderPainted(false);
 		btnCancelar.setFocusPainted(false);
-		btnCancelar.setBounds(153, 426, 88, 46);
+		btnCancelar.setBounds(153, 300, 88, 46);
 		contentPane.add(btnCancelar);
 		
-		comboPrioridad = new JComboBox(new String[] {"ALTA", "MEDIA", "BAJA"});
-		comboPrioridad.setBounds(231, 164, 183, 31);
+		comboPrioridad = new JComboBox(new String[] {"BAJA", "MEDIA", "ALTA", "CRITICA"});
+		comboPrioridad.setBounds(231, 92, 183, 31);
 		contentPane.add(comboPrioridad);
 		
 		JButton btnGuardarIncidencia = new JButton("Guardar Incidencia");
@@ -136,9 +116,13 @@ public class VentanaIncidencia extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					guardar();
+					ventana.cargarIncidencias();
+					dispose();
 				} catch (SQLException e1) {
-					
 					e1.printStackTrace();
+					JOptionPane.showMessageDialog(VentanaIncidencia.this,
+						"Error al guardar: " + e1.getMessage(),
+						"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -147,7 +131,7 @@ public class VentanaIncidencia extends JFrame {
 		btnGuardarIncidencia.setBorderPainted(false);
 		btnGuardarIncidencia.setFocusPainted(false);
 		btnGuardarIncidencia.setForeground(new Color(255, 255, 255));
-		btnGuardarIncidencia.setBounds(263, 426, 151, 46);
+		btnGuardarIncidencia.setBounds(263, 300, 151, 46);
 		contentPane.add(btnGuardarIncidencia);
 		
 	}
@@ -155,9 +139,15 @@ public class VentanaIncidencia extends JFrame {
 	public void guardar() throws SQLException {
 			String descripcion = inputDescripcion.getText();
 			String prioridad = (String) comboPrioridad.getSelectedItem();
-			
-			IncidenciaRepository repo = new IncidenciaRepository();
-			repo.reportarIncidencia(descripcion, prioridad, user.getRol().getIdRol(), user.getIdUsuario());
+			String deptSeleccionado = (String) comboDepartamento.getSelectedItem();
 
+			PuestoRepository pRepo = new PuestoRepository();
+			for (var p : pRepo.findAll()) {
+				if (p.getDepartamento().equals(deptSeleccionado)) {
+					IncidenciaRepository repo = new IncidenciaRepository(user.getIdUsuario());
+					repo.reportarIncidencia(descripcion, prioridad, p.getIdPuesto(), user.getIdUsuario());
+					return;
+				}
+			}
 	}
 }

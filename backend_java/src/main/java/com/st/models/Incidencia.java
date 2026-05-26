@@ -16,25 +16,9 @@ public class Incidencia {
 	private Timestamp fechaResolucion; // Puede ser null
 	private int idPuesto;
 	private int idUsuarioCreador;
-	private Integer idUsuarioCierre; // Puede ser null
-
-	/*
-	 * Constructor para nuevas incidencias. Se usa cuando el operario crea un
-	 * ticket; el ID lo generará la DB automáticamente.
-	 */
-	public Incidencia(String descripcion, String prioridad, String estado, Timestamp fechaCreacion,
-			Timestamp fechaInicioAtencion, Timestamp fechaResolucion, int idPuesto, int idUsuarioCreador,
-			Integer idUsuarioCierre) {
-		this.descripcion = descripcion;
-		this.prioridad = prioridad;
-		this.estado = "ACTIVA";
-		this.fechaCreacion = fechaCreacion;
-		this.fechaInicioAtencion = fechaInicioAtencion;
-		this.fechaResolucion = fechaResolucion;
-		this.idPuesto = idPuesto;
-		this.idUsuarioCreador = idUsuarioCreador;
-		this.idUsuarioCierre = idUsuarioCierre;
-	}
+	private Integer idUsuarioCierre;
+	private String nombreDepartamento;
+	private String nombreReportadoPor;
 
 	/*
 	 * Constructor completo. Se utiliza en el Repositorio para reconstruir objetos a
@@ -42,7 +26,7 @@ public class Incidencia {
 	 */
 	public Incidencia(int idIncidencia, String descripcion, String prioridad, String estado, Timestamp fechaCreacion,
 			Timestamp fechaInicioAtencion, Timestamp fechaResolucion, int idPuesto, int idUsuarioCreador,
-			Integer idUsuarioCierre) {
+			Integer idUsuarioCierre, String nombreDepartamento, String nombreReportadoPor) {
 		this.idIncidencia = idIncidencia;
 		this.descripcion = descripcion;
 		this.prioridad = prioridad;
@@ -53,6 +37,8 @@ public class Incidencia {
 		this.idPuesto = idPuesto;
 		this.idUsuarioCreador = idUsuarioCreador;
 		this.idUsuarioCierre = idUsuarioCierre;
+		this.nombreDepartamento = nombreDepartamento;
+		this.nombreReportadoPor = nombreReportadoPor;
 	}
 
 	// Getters y Setters
@@ -134,5 +120,13 @@ public class Incidencia {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public String getNombreDepartamento() {
+		return nombreDepartamento;
+	}
+
+	public String getNombreReportadoPor() {
+		return nombreReportadoPor;
 	}
 }

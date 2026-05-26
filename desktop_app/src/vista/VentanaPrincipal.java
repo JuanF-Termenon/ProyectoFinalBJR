@@ -1,19 +1,14 @@
 package vista;
-import java.awt.Toolkit;
+
 import com.st.repositories.IncidenciaRepository;
+import com.st.repositories.PuestoRepository;
 import com.st.models.Incidencia;
 import com.st.models.Usuario;
-
-import java.awt.Dimension;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-
-import jdk.javadoc.doclet.Reporter;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -26,10 +21,6 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -44,6 +35,11 @@ public class VentanaPrincipal extends JFrame {
 	private Usuario user;
 
 	private IncidenciaRepository repo = new IncidenciaRepository();
+	private JLabel contadorActivas = new JLabel("0");
+	private JLabel contadorEnCurso = new JLabel("0");
+	private JLabel contadorResueltas = new JLabel("0");
+	private JComboBox comboDept = new JComboBox();
+	private JButton btnAnadir = new JButton("Añadir incidencia");
 	public VentanaPrincipal(Login login, Usuario user) {
 		setTitle("BJR Technician Services");
 		this.login = login;
@@ -63,57 +59,54 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("GESTOR DE INCIDENCIAS");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBackground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(24, 21, 262, 33);
-		panel.add(lblNewLabel);
+		JLabel lblTitulo = new JLabel("GESTOR DE INCIDENCIAS");
+		lblTitulo.setForeground(new Color(255, 255, 255));
+		lblTitulo.setBackground(new Color(255, 255, 255));
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTitulo.setBounds(24, 21, 262, 33);
+		panel.add(lblTitulo);
 		
-		JLabel lblNewLabel_1 = new JLabel("ACTIVAS");
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(783, 11, 72, 16);
-		panel.add(lblNewLabel_1);
+		JLabel lblActivas = new JLabel("ACTIVAS");
+		lblActivas.setForeground(Color.WHITE);
+		lblActivas.setBounds(783, 11, 72, 16);
+		panel.add(lblActivas);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("EN CURSO");
-		lblNewLabel_1_1.setForeground(Color.WHITE);
-		lblNewLabel_1_1.setBounds(873, 11, 83, 16);
-		panel.add(lblNewLabel_1_1);
+		JLabel lblEnCurso = new JLabel("EN CURSO");
+		lblEnCurso.setForeground(Color.WHITE);
+		lblEnCurso.setBounds(873, 11, 83, 16);
+		panel.add(lblEnCurso);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("RESUELTAS");
-		lblNewLabel_1_2.setForeground(Color.WHITE);
-		lblNewLabel_1_2.setBounds(966, 11, 86, 16);
-		panel.add(lblNewLabel_1_2);
+		JLabel lblResueltas = new JLabel("RESUELTAS");
+		lblResueltas.setForeground(Color.WHITE);
+		lblResueltas.setBounds(966, 11, 86, 16);
+		panel.add(lblResueltas);
 		
-		JLabel lblNewLabel_2 = new JLabel("0");
-		lblNewLabel_2.setForeground(new Color(204, 0, 0));
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(803, 38, 38, 25);
-		panel.add(lblNewLabel_2);
+		contadorActivas.setForeground(new Color(204, 0, 0));
+		contadorActivas.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		contadorActivas.setBounds(803, 38, 38, 25);
+		panel.add(contadorActivas);
+
+		contadorEnCurso.setForeground(new Color(204, 255, 0));
+		contadorEnCurso.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		contadorEnCurso.setBounds(898, 38, 38, 25);
+		panel.add(contadorEnCurso);
+
+		contadorResueltas.setForeground(new Color(0, 204, 0));
+		contadorResueltas.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		contadorResueltas.setBounds(992, 38, 38, 25);
+		panel.add(contadorResueltas);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("0");
-		lblNewLabel_2_1.setForeground(new Color(204, 255, 0));
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2_1.setBounds(898, 38, 38, 25);
-		panel.add(lblNewLabel_2_1);
+		JLabel lblEstado = new JLabel("Estado:");
+		lblEstado.setBounds(10, 113, 48, 14);
+		contentPane.add(lblEstado);
 		
-		JLabel lblNewLabel_2_2 = new JLabel("0");
-		lblNewLabel_2_2.setForeground(new Color(0, 204, 0));
-		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2_2.setBounds(992, 38, 38, 25);
-		panel.add(lblNewLabel_2_2);
+		JLabel lblPrioridad = new JLabel("Prioridad:");
+		lblPrioridad.setBounds(174, 113, 60, 14);
+		contentPane.add(lblPrioridad);
 		
-		JLabel lblNewLabel_3 = new JLabel("Estado:");
-		lblNewLabel_3.setBounds(10, 113, 48, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_3_1 = new JLabel("Prioridad:");
-		lblNewLabel_3_1.setBounds(174, 113, 60, 14);
-		contentPane.add(lblNewLabel_3_1);
-		
-		JLabel lblNewLabel_3_2 = new JLabel("Dept:");
-		lblNewLabel_3_2.setBounds(364, 113, 36, 14);
-		contentPane.add(lblNewLabel_3_2);
+		JLabel lblDept = new JLabel("Dept:");
+		lblDept.setBounds(364, 113, 36, 14);
+		contentPane.add(lblDept);
 		
 		JComboBox comboEstado = new JComboBox(new String[] {"", "ACTIVA", "EN_CURSO", "RESUELTA", "REABIERTA", "CANCELADA"});
 		comboEstado.setBounds(55, 109, 99, 22);
@@ -123,12 +116,20 @@ public class VentanaPrincipal extends JFrame {
 		comboPrioridad.setBounds(234, 109, 99, 22);
 		contentPane.add(comboPrioridad);
 		
-		JComboBox comboDept = new JComboBox();
+		comboDept.addItem("");
+		try {
+			PuestoRepository pRepo = new PuestoRepository();
+			for (var d : pRepo.findAllDepartamentos()) {
+				comboDept.addItem(d);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		comboDept.setBounds(399, 109, 99, 22);
 		contentPane.add(comboDept);
 		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.addActionListener(new ActionListener() {
+		JButton btnRefrescar = new JButton("Refrescar tabla");
+		btnRefrescar.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // 1. Limpiamos la tabla para volver a cargarla
 		        modelo.setRowCount(0);
@@ -136,12 +137,13 @@ public class VentanaPrincipal extends JFrame {
 		        // 2. Obtenemos lo que el usuario ha seleccionado en los combos
 		        String filtroEstado = (String) comboEstado.getSelectedItem();
 		        String filtroPrioridad = (String) comboPrioridad.getSelectedItem();
+		        String filtroDept = (String) comboDept.getSelectedItem();
 		        
 		        try {
 		            // Reiniciamos contadores para el nuevo filtrado
-		            int cAbiertas = 0;
-		            int cProgreso = 0;
-		            int cResueltas = 0;
+		            int totalActivas = 0;
+		            int totalEnCurso = 0;
+		            int totalResueltas = 0;
 
 		            // 3. Volvemos a pedir las incidencias
 		            ArrayList<Incidencia> lista = repo.findAll();
@@ -151,94 +153,90 @@ public class VentanaPrincipal extends JFrame {
 		                // Si el combo no está vacío Y el estado no coincide, saltamos a la siguiente incidencia
 		                if (!filtroEstado.isEmpty() && !i.getEstado().equalsIgnoreCase(filtroEstado)) continue;
 		                if (!filtroPrioridad.isEmpty() && !i.getPrioridad().equalsIgnoreCase(filtroPrioridad)) continue;
+		                if (!filtroDept.isEmpty() && !i.getNombreDepartamento().equalsIgnoreCase(filtroDept)) continue;
 
 		                // 4. Si pasa el filtro, añadimos la fila (Tu código exacto)
 		                modelo.addRow(new Object[] {
 		                    i.getIdIncidencia(),
 		                    i.getDescripcion(),
-		                    i.getIdPuesto(),
+		                    i.getNombreDepartamento(),
 		                    i.getPrioridad(),
 		                    i.getEstado(),
-		                    i.getIdUsuarioCreador(),
+		                    i.getNombreReportadoPor(),
 		                    i.getFechaCreacion()
 		                });
 		                
-		                // 5. Actualizamos contadores según lo que estamos viendo
-		                if (i.getEstado().equalsIgnoreCase("ACTIVA") || i.getEstado().equalsIgnoreCase("REABIERTA")) cAbiertas++;
-		                else if (i.getEstado().equalsIgnoreCase("EN_CURSO")) cProgreso++;
-		                else if (i.getEstado().equalsIgnoreCase("RESUELTA")) cResueltas++;
+		                if (i.getEstado().equalsIgnoreCase("ACTIVA") || i.getEstado().equalsIgnoreCase("REABIERTA")) totalActivas++;
+		                else if (i.getEstado().equalsIgnoreCase("EN_CURSO")) totalEnCurso++;
+		                else if (i.getEstado().equalsIgnoreCase("RESUELTA")) totalResueltas++;
 		            }
 
-		            // 6. Refrescamos los labels con los nuevos totales filtrados
-		            lblNewLabel_2.setText(String.valueOf(cAbiertas));
-		            lblNewLabel_2_1.setText(String.valueOf(cProgreso));
-		            lblNewLabel_2_2.setText(String.valueOf(cResueltas));
+		            contadorActivas.setText(String.valueOf(totalActivas));
+		            contadorEnCurso.setText(String.valueOf(totalEnCurso));
+		            contadorResueltas.setText(String.valueOf(totalResueltas));
 
 		        } catch (SQLException e1) {
 		            e1.printStackTrace();
 		        }
 		    }
 		});
-		btnActualizar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnActualizar.setBackground(new Color(0, 102, 153));
-		btnActualizar.setForeground(Color.WHITE);
-		btnActualizar.setBounds(596, 104, 145, 32);
-		btnActualizar.setBorderPainted(false);
-		btnActualizar.setFocusPainted(false);
-		contentPane.add(btnActualizar);
+		btnRefrescar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnRefrescar.setBackground(new Color(0, 102, 153));
+		btnRefrescar.setForeground(Color.WHITE);
+		btnRefrescar.setBounds(596, 104, 145, 32);
+		btnRefrescar.setBorderPainted(false);
+		btnRefrescar.setFocusPainted(false);
+		contentPane.add(btnRefrescar);
 		
-		JButton btnNuevaIncidencia = new JButton("+ Nueva Incidencia");
-		btnNuevaIncidencia.addActionListener(new ActionListener() {
+		btnAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaIncidencia incidencia = new VentanaIncidencia(VentanaPrincipal.this, modelo, user);
 				
 				incidencia.setVisible(true);
 			}
 		});
-		btnNuevaIncidencia.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNuevaIncidencia.setBackground(new Color(50, 205, 50));
-		btnNuevaIncidencia.setForeground(Color.WHITE);
-		btnNuevaIncidencia.setBorderPainted(false);
-		btnNuevaIncidencia.setFocusPainted(false);
-		btnNuevaIncidencia.setBounds(763, 104, 145, 32);
-		contentPane.add(btnNuevaIncidencia);
+		btnAnadir.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnAnadir.setBackground(new Color(50, 205, 50));
+		btnAnadir.setForeground(Color.WHITE);
+		btnAnadir.setBorderPainted(false);
+		btnAnadir.setFocusPainted(false);
+		btnAnadir.setBounds(763, 104, 145, 32);
+		contentPane.add(btnAnadir);
 		
-		String[] columnas = {"ID", "Titulo", "Departamento", "Prioridad", "Estado", "Reportado por", "Fecha"};
+		String[] columnas = {"ID", "Descripcion", "Departamento", "Prioridad", "Estado", "Reportado por", "Fecha"};
 		
 		modelo = new DefaultTableModel(null, columnas);
 		ArrayList<Incidencia> incidencias;
 		try {
 			
-			int contadorAbiertas = 0;
-			int contadorProgreso = 0;
-			int contadorResueltas = 0;
+			int totalActivas = 0;
+			int totalEnCurso = 0;
+			int totalResueltas = 0;
 			
 			incidencias = repo.findAll();
 			
 			for (Incidencia i : incidencias) {
 				modelo.addRow(new Object[] {
 				        i.getIdIncidencia(),
-				        i.getDescripcion(),        // Mapeado a "Titulo" en tus columnas
-				        i.getIdPuesto(),           // Mapeado a "Departamento"
+				        i.getDescripcion(),
+				        i.getNombreDepartamento(),
 				        i.getPrioridad(),
 				        i.getEstado(),
-				        i.getIdUsuarioCreador(),   // Mapeado a "Reportado por"
+				        i.getNombreReportadoPor(),
 				        i.getFechaCreacion()
 				    });
 				
-				//Lógica del recuento
-			    // Comparamos el estado (asegúrate de que coincidan con los strings de tu BD/DML)
-			    if (i.getEstado().equalsIgnoreCase("ACTIVA")) {
-			        contadorAbiertas++;
+			    if (i.getEstado().equalsIgnoreCase("ACTIVA") || i.getEstado().equalsIgnoreCase("REABIERTA")) {
+			        totalActivas++;
 			    } else if (i.getEstado().equalsIgnoreCase("EN_CURSO")) {
-			        contadorProgreso++;
+			        totalEnCurso++;
 			    } else if (i.getEstado().equalsIgnoreCase("RESUELTA")) {
-			        contadorResueltas++;
+			        totalResueltas++;
 			    }	
 				
-			    lblNewLabel_2.setText(String.valueOf(contadorAbiertas));   // ABIERTA
-			    lblNewLabel_2_1.setText(String.valueOf(contadorProgreso)); // EN PROGRESO
-			    lblNewLabel_2_2.setText(String.valueOf(contadorResueltas)); // RESUELTAS
+			    contadorActivas.setText(String.valueOf(totalActivas));
+			    contadorEnCurso.setText(String.valueOf(totalEnCurso));
+			    contadorResueltas.setText(String.valueOf(totalResueltas));
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -255,8 +253,8 @@ public class VentanaPrincipal extends JFrame {
 		table.setRowHeight(35);
 		
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.addActionListener(new ActionListener() {
+		JButton btnGestionar = new JButton("Gestionar incidencia");
+		btnGestionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int filaVista = table.getSelectedRow();
 		       
@@ -270,19 +268,45 @@ public class VentanaPrincipal extends JFrame {
 
 		        filaSeleccionada = table.convertRowIndexToModel(filaVista);
 
-		        VentanaEditar ve = new VentanaEditar(modelo, filaSeleccionada);
+		        VentanaEditar ve = new VentanaEditar(VentanaPrincipal.this, modelo, filaSeleccionada, user);
 		        ve.setVisible(true);
 			}
 		});
-		btnEditar.setForeground(Color.WHITE);
-		btnEditar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnEditar.setFocusPainted(false);
-		btnEditar.setBorderPainted(false);
-		btnEditar.setBackground(new Color(0, 102, 153));
-		btnEditar.setBounds(927, 104, 145, 32);
-		contentPane.add(btnEditar);
-		
-		
+		btnGestionar.setForeground(Color.WHITE);
+		btnGestionar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnGestionar.setFocusPainted(false);
+		btnGestionar.setBorderPainted(false);
+		btnGestionar.setBackground(new Color(0, 102, 153));
+		btnGestionar.setBounds(927, 104, 145, 32);
+		if (user.getRol().getIdRol() != 1) {
+			btnGestionar.setVisible(false);
+		}
+		contentPane.add(btnGestionar);
 
+		if (user.getRol().getIdRol() == 3) {
+			btnAnadir.setVisible(false);
+		}
+
+	}
+
+	public void cargarIncidencias() {
+		modelo.setRowCount(0);
+		try {
+			int totalActivas = 0, totalEnCurso = 0, totalResueltas = 0;
+			for (Incidencia i : repo.findAll()) {
+				modelo.addRow(new Object[] {
+					i.getIdIncidencia(), i.getDescripcion(), i.getNombreDepartamento(),
+					i.getPrioridad(), i.getEstado(), i.getNombreReportadoPor(), i.getFechaCreacion()
+				});
+				if (i.getEstado().equalsIgnoreCase("ACTIVA")) totalActivas++;
+				else if (i.getEstado().equalsIgnoreCase("EN_CURSO")) totalEnCurso++;
+				else if (i.getEstado().equalsIgnoreCase("RESUELTA")) totalResueltas++;
+			}
+			contadorActivas.setText(String.valueOf(totalActivas));
+			contadorEnCurso.setText(String.valueOf(totalEnCurso));
+			contadorResueltas.setText(String.valueOf(totalResueltas));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

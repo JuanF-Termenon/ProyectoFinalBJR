@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,6 @@ public class Login extends JFrame {
     private JPanel contentPane;
     private JTextField inputUsuario;
     private JPasswordField inputContrasena;
-    private JComboBox<String> seleccionarPerfil;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -61,33 +59,23 @@ public class Login extends JFrame {
         lblSub.setBounds(10, 32, 115, 14);
         contentPane.add(lblSub);
 
-        // --- TIPO DE ACCESO ---
-        JLabel lblTipo = new JLabel("Tipo de acceso");
-        lblTipo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblTipo.setBounds(54, 69, 150, 14);
-        contentPane.add(lblTipo);
-
-        String[] perfiles = { "Selecciona un perfil", "Técnico ST", "Jefe ST" };
-        seleccionarPerfil = new JComboBox<>(perfiles);
-        seleccionarPerfil.setBounds(64, 94, 295, 22);
-        contentPane.add(seleccionarPerfil);
-
         // --- USUARIO ---
         JLabel lblUser = new JLabel("Usuario");
-        lblUser.setBounds(64, 127, 85, 14);
+        lblUser.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblUser.setBounds(64, 69, 85, 14);
         contentPane.add(lblUser);
 
         inputUsuario = new JTextField();
-        inputUsuario.setBounds(64, 152, 295, 20);
+        inputUsuario.setBounds(64, 94, 295, 20);
         contentPane.add(inputUsuario);
 
         // --- CONTRASEÑA ---
         JLabel lblPass = new JLabel("Contraseña");
-        lblPass.setBounds(64, 188, 85, 14);
+        lblPass.setBounds(64, 139, 85, 14);
         contentPane.add(lblPass);
 
         inputContrasena = new JPasswordField();
-        inputContrasena.setBounds(64, 213, 295, 20);
+        inputContrasena.setBounds(64, 164, 295, 20);
         contentPane.add(inputContrasena);
 
         // --- BOTÓN ENTRAR ---
@@ -95,7 +83,7 @@ public class Login extends JFrame {
         btnLogin.setBackground(new Color(64, 128, 128));
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btnLogin.setBounds(64, 266, 295, 41);
+        btnLogin.setBounds(64, 220, 295, 41);
         
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -108,30 +96,38 @@ public class Login extends JFrame {
     private void ejecutarLogin() {
         String username = inputUsuario.getText().trim();
         String passPlana = new String(inputContrasena.getPassword()).trim();
-        String perfilSeleccionado = (String) seleccionarPerfil.getSelectedItem();
 
-        // 1. Validación de campos vacíos
-        if (username.isEmpty() || passPlana.isEmpty() || perfilSeleccionado.equals("Selecciona un perfil")) {
+        if (username.isEmpty() || passPlana.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
             return;
         }
 
         try {
-            // 2. Lógica de Backend
             String hash = Utils.simplificarHash(passPlana);
             UsuarioRepository repo = new UsuarioRepository();
             Usuario user = repo.login(username, hash);
 
-            // 3. Verificación de resultado
             if (user != null) {
-                // Comprobamos que el rol coincida con el perfil del combo
-                if (user.getRol().getNombreRol().equalsIgnoreCase(perfilSeleccionado)) {
-                    VentanaPrincipal principal = new VentanaPrincipal(this, user);
-                    principal.setVisible(true);
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "El perfil seleccionado no coincide con su rol asignado.", "Error de Perfil", JOptionPane.WARNING_MESSAGE);
+                repo.actualizarUltimoLogin(user.getIdUsuario());
+
+                if (user.isPrimerAcceso()) {
+                    String nuevaPass = JOptionPane.showInputDialog(this,
+                        "Es tu primer acceso. Introduce una nueva contraseña:",
+                        "Cambio de contraseña obligatorio",
+                        JOptionPane.WARNING_MESSAGE);
+                    if (nuevaPass != null && !nuevaPass.trim().isEmpty()) {
+                        String nuevoHash = Utils.simplificarHash(nuevaPass.trim());
+                        repo.actualizarPassword(user.getIdUsuario(), nuevoHash);
+                        user.setPrimerAcceso(false);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Debes cambiar la contraseña para continuar.");
+                        return;
+                    }
                 }
+
+                VentanaPrincipal principal = new VentanaPrincipal(this, user);
+                principal.setVisible(true);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos (o cuenta inactiva).", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
             }
