@@ -1,233 +1,254 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>gestion-servicio-tecnico</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://api.fontshare.com" />
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJR Technician Services — Gestión de Incidencias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <a href="#main-content" class="sr-only">Saltar al contenido</a>
-
-  <section id="loginScreen" class="login-shell">
-    <div class="login-card">
-      <div class="login-header">
-        <div class="brand">
-          <div class="brand-mark" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-label="Logo ST Connect">
-              <path d="M5 12h14"></path>
-              <path d="M12 5v14"></path>
-              <circle cx="12" cy="12" r="8"></circle>
-            </svg>
-          </div>
-          <div>
-            <h1>ST Connect</h1>
-            <small>Gestión interna de incidencias</small>
-          </div>
-        </div>
-        <div>
-          <h2>Acceso al sistema</h2>
-          <p>Entra como puesto, técnico de ST o jefe para acceder a la interfaz correspondiente.</p>
-        </div>
-      </div>
-
-      <form id="loginForm" class="form-grid">
-        <div class="field">
-          <label for="accessRole">Tipo de acceso</label>
-          <select id="accessRole" required>
-            <option value="">Selecciona un perfil</option>
-            <option value="puesto">Puesto</option>
-            <option value="st">Técnico ST</option>
-            <option value="jefe">Jefe ST</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="accessUser">Usuario</label>
-          <input id="accessUser" type="text" placeholder="Ej: TP01 o tecnico1" required />
-        </div>
-
-        <div class="field">
-          <label for="accessPassword">Contraseña</label>
-          <input id="accessPassword" type="password" placeholder="Introduce la contraseña" required />
-          <span class="helper">Esta demo no valida contraseñas reales; sirve para simular el flujo.</span>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Entrar al sistema</button>
-      </form>
+ 
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">BJR</div>
+    BJR Technician Services
+  </a>
+  <ul class="nav-links">
+    <li><a href="#arquitectura">Arquitectura</a></li>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#flujo">Flujo</a></li>
+ 
+    <li><a href="#contacto" class="nav-cta">Acceder</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">BJR Technician Services · Servicio Técnico</div>
+  <h1>Gestión de incidencias<br>técnicas <span class="accent">sin fricción</span></h1>
+  <p class="hero-sub">Plataforma centralizada para reportar, asignar y resolver incidencias técnicas desde cualquier puesto de trabajo. Rápido, trazable y seguro.</p>
+  <div class="hero-actions">
+    <a href="#flujo" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Ver cómo funciona
+    </a>
+    <a href="#roles" class="btn-ghost">Explorar roles →</a>
+  </div>
+</section>
+ 
+<!-- ARQUITECTURA -->
+<section class="arch-section" id="arquitectura">
+  <div class="arch-inner">
+    <div class="fade-up">
+      <div class="section-tag">Arquitectura</div>
+      <h2 class="section-title">Cuatro componentes,<br>un sistema unificado</h2>
+      <p class="section-sub" style="margin-bottom:2rem;">La arquitectura separa responsabilidades con claridad: los clientes solo hablan con el backend, y únicamente el backend accede a la base de datos.</p>
+      <a href="#contacto" class="btn-primary" style="font-size:0.88rem;">Solicitar documentación técnica →</a>
     </div>
-  </section>
-
-  <section id="appScreen" class="app-shell hidden">
-    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M5 12h14"></path>
-            <path d="M12 5v14"></path>
-            <circle cx="12" cy="12" r="8"></circle>
-          </svg>
+    <div class="arch-diagram fade-up">
+      <div class="arch-card">
+        <div class="arch-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
-        <div>
-          <h1>ST Connect</h1>
-          <small>Panel operativo interno</small>
-        </div>
+        <h4>App de escritorio</h4>
+        <p>Instalada en puestos fijos. Inicio automático, acceso rápido para reportar incidencias sin abrir navegador.</p>
       </div>
-
-      <nav class="nav" id="navMenu">
-        <button class="nav-btn active" data-page="dashboardPage">Resumen</button>
-        <button class="nav-btn" data-page="puestoPage">Puesto</button>
-        <button class="nav-btn" data-page="stPage">Panel ST</button>
-        <button class="nav-btn" data-page="historyPage">Histórico</button>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">Cambiar tema</button>
-        <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
-      </div>
-    </aside>
-
-    <div class="main">
-      <header class="topbar">
-        <button id="mobileNavToggle" class="mobile-nav-toggle" aria-label="Abrir menú">☰</button>
-        <div class="topbar-title">
-          <h2 id="pageTitle">Resumen</h2>
-          <p id="pageDescription">Estado general del sistema de incidencias.</p>
+      <div class="arch-card">
+        <div class="arch-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 18H12.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
         </div>
-        <div id="userChip" class="user-chip">Sin sesión</div>
-      </header>
-
-      <main id="main-content">
-        <section id="dashboardPage" class="page active">
-          <article class="hero-card">
-            <span class="pill">Operación centralizada</span>
-            <h3>Una sola base de trabajo para puestos, técnicos y supervisión.</h3>
-            <p>Esta demo muestra una versión web del sistema con login, vista de puesto, tablero ST, histórico, filtros y cambio de estados usando HTML, CSS y JavaScript puro.</p>
-            <div class="hero-actions">
-              <button class="btn btn-primary" data-page-link="stPage">Abrir panel ST</button>
-              <button class="btn btn-secondary" data-page-link="puestoPage">Ir al panel de puesto</button>
-            </div>
-          </article>
-
-          <section class="metrics" aria-label="Métricas rápidas">
-            <article class="metric"><span class="metric-label">Activas</span><strong id="metricActivas">0</strong><p>Incidencias pendientes de atención.</p></article>
-            <article class="metric"><span class="metric-label">En curso</span><strong id="metricCurso">0</strong><p>Tickets ya asumidos por ST.</p></article>
-            <article class="metric"><span class="metric-label">Resueltas</span><strong id="metricResueltas">0</strong><p>Casos cerrados con informe final.</p></article>
-            <article class="metric"><span class="metric-label">Críticas</span><strong id="metricCriticas">0</strong><p>Incidencias con prioridad crítica.</p></article>
-          </section>
-        </section>
-
-        <section id="puestoPage" class="page">
-          <div class="grid-2">
-            <article class="panel">
-              <div class="panel-head">
-                <div>
-                  <h3>Nuevo aviso</h3>
-                  <p>El puesto solo debe introducir una descripción breve y la prioridad deseada.</p>
-                </div>
-              </div>
-
-              <form id="ticketForm" class="form-grid">
-                <div class="field">
-                  <label for="puestoInput">Puesto</label>
-                  <input id="puestoInput" type="text" placeholder="TP01" />
-                  <span class="helper">Si has iniciado sesión como puesto, este valor se rellena automáticamente.</span>
-                </div>
-
-                <div class="field">
-                  <label for="descriptionInput">Descripción</label>
-                  <textarea id="descriptionInput" placeholder="Ej: No enciende el monitor del puesto"></textarea>
-                </div>
-
-                <div class="field">
-                  <label for="priorityInput">Prioridad</label>
-                  <select id="priorityInput">
-                    <option value="Baja">Baja</option>
-                    <option value="Media" selected>Media</option>
-                    <option value="Alta">Alta</option>
-                    <option value="Crítica">Crítica</option>
-                  </select>
-                </div>
-
-                <button class="btn btn-primary" type="submit">Registrar incidencia</button>
-              </form>
-            </article>
-
-            <article class="panel">
-              <div class="panel-head">
-                <div>
-                  <h3>Últimas incidencias del puesto</h3>
-                  <p>Resumen rápido de las incidencias registradas desde este origen.</p>
-                </div>
-              </div>
-              <div id="puestoList" class="list"></div>
-            </article>
-          </div>
-        </section>
-
-        <section id="stPage" class="page">
-          <article class="panel">
-            <div class="panel-head">
-              <div>
-                <h3>Tablero de incidencias</h3>
-                <p>Visualización operativa con filtros, prioridades y acciones de cambio de estado.</p>
-              </div>
-              <div class="filters">
-                <input id="searchInput" type="search" placeholder="Buscar por puesto o descripción" />
-                <select id="statusFilter">
-                  <option value="Todas">Todas</option>
-                  <option value="Activa">Activa</option>
-                  <option value="En curso">En curso</option>
-                  <option value="Resuelta">Resuelta</option>
-                </select>
-                <select id="priorityFilter">
-                  <option value="Todas">Todas las prioridades</option>
-                  <option value="Baja">Baja</option>
-                  <option value="Media">Media</option>
-                  <option value="Alta">Alta</option>
-                  <option value="Crítica">Crítica</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Puesto</th>
-                    <th>Descripción</th>
-                    <th>Prioridad</th>
-                    <th>Estado</th>
-                    <th>Fecha/Hora</th>
-                    <th>Técnico</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="ticketsTable"></tbody>
-              </table>
-            </div>
-          </article>
-        </section>
-
-        <section id="historyPage" class="page">
-          <article class="panel">
-            <div class="panel-head">
-              <div>
-                <h3>Histórico de incidencias resueltas</h3>
-                <p>Registro consolidado con resolución, técnico principal y trazabilidad básica.</p>
-              </div>
-            </div>
-            <div id="historyList" class="list"></div>
-            <div class="footer-note">En una versión conectada a backend, este apartado se alimentaría desde base de datos y permitiría exportación CSV por fecha o mes.</div>
-          </article>
-        </section>
-      </main>
+        <h4>Aplicación web</h4>
+        <h6>Proximamente</h6>
+        <p>Responsive. Acceso desde móvil, tablet u ordenador externo sin instalación previa.</p>
+      </div>
+      <div class="arch-card featured">
+        <div class="arch-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <h4>Backend central</h4>
+        <p>Autenticación, reglas de negocio, gestión de estados, exportaciones y auditoría. Único punto de acceso a la base de datos.</p>
+      </div>
+      <div class="arch-card" style="grid-column: span 2;">
+        <div class="arch-card-icon">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <h4>Base de datos</h4>
+        <p>Almacena usuarios, puestos, incidencias, estados, históricos, informes, auditoría y configuraciones del sistema.</p>
+      </div>
     </div>
-  </section>
-  <script src="script.js"></script>
+  </div>
+</section>
+ 
+<!-- ROLES -->
+<section id="roles">
+  <div class="roles-section">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-tag">Usuarios y roles</div>
+      <h2 class="section-title">Cada usuario, en su contexto</h2>
+      <p class="section-sub" style="margin:0 auto;">Sistema de permisos RBAC con cuatro niveles de acceso, adaptados al flujo real del servicio técnico.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card fade-up">
+        <span class="role-badge op">Operario</span>
+        <h3>Puesto de trabajo</h3>
+        <p>Representa un área física como TP01 o Prensa04. Enfocado en la rapidez de reporte.</p>
+        <ul class="role-perms">
+          <li>Iniciar sesión con usuario de puesto</li>
+          <li>Reportar incidencia con formulario mínimo</li>
+          <li>Descripción breve opcional</li>
+          <li>Ver estado de su última incidencia</li>
+        </ul>
+      </div>
+      <div class="role-card fade-up">
+        <span class="role-badge tech">Técnico ST</span>
+        <h3>Técnico de Servicio Técnico</h3>
+        <p>Cuenta personal por técnico. Gestión completa del ciclo de vida del ticket.</p>
+        <ul class="role-perms">
+          <li>Ver y filtrar todas las incidencias</li>
+          <li>Asignarse y cambiar estados</li>
+          <li>Añadir notas internas</li>
+          <li>Cerrar con informe obligatorio</li>
+        </ul>
+      </div>
+      <div class="role-card fade-up">
+        <span class="role-badge jefe">Jefe ST</span>
+        <h3>Jefe de Servicio Técnico</h3>
+        <p>Supervisión global del departamento. Acceso a métricas y exportaciones avanzadas.</p>
+        <ul class="role-perms">
+          <li>Histórico completo de incidencias</li>
+          <li>Exportar por rango de fechas / filtros</li>
+          <li>Estadísticas por técnico y categoría</li>
+          <li>Rendimiento global del departamento</li>
+        </ul>
+      </div>
+      <div class="role-card fade-up">
+        <span class="role-badge admin">Administrador</span>
+        <h3>Administrador</h3>
+        <p>Control total del sistema: usuarios, configuración y parámetros operativos.</p>
+        <ul class="role-perms">
+          <li>Crear y gestionar usuarios</li>
+          <li>Resetear contraseñas</li>
+          <li>Alta de puestos y categorías</li>
+          <li>Configuración del sistema</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FLUJO -->
+<section class="flow-section" id="flujo">
+  <div class="flow-inner">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-tag">Flujo de incidencias</div>
+      <h2 class="section-title">Del reporte a la resolución</h2>
+      <p class="section-sub" style="margin:0 auto;">Proceso diseñado para minimizar la carga del trabajador y maximizar la trazabilidad del equipo técnico.</p>
+    </div>
+    <div class="flow-steps fade-up">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <h4>Login</h4>
+        <p>El trabajador inicia sesión con el usuario del puesto</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <h4>Formulario</h4>
+        <p>Pantalla mínima con descripción breve opcional y categoría</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <h4>Registro</h4>
+        <p>El sistema registra puesto, fecha, hora y estado inicial automáticamente</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <h4>Asignación</h4>
+        <p>Técnico toma la incidencia; se registra quién y cuándo</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <h4>Resolución</h4>
+        <p>Técnico documenta la solución en informe obligatorio</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">6</div>
+        <h4>Histórico</h4>
+        <p>Incidencia pasa al módulo de histórico con toda la trazabilidad</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ESTADOS -->
+<section id="estados">
+  <div class="estados-inner">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-tag">Estados</div>
+      <h2 class="section-title">Visibilidad en tiempo real</h2>
+      <p class="section-sub" style="margin:0 auto;">Tres estados codificados por color que reflejan el ciclo completo de cualquier incidencia en el panel operativo.</p>
+    </div>
+    <div class="estados-grid fade-up">
+      <div class="estado-card en-cola">
+        <div class="estado-dot">🔴</div>
+        <div class="estado-label">Sin atender</div>
+        <h3>En cola</h3>
+        <p>La incidencia ha sido registrada pero aún no ha sido asumida por ningún técnico. Requiere atención inmediata.</p>
+      </div>
+      <div class="estado-card en-curso">
+        <div class="estado-dot">🟡</div>
+        <div class="estado-label">Trabajando</div>
+        <h3>En curso</h3>
+        <p>Uno o varios técnicos están trabajando en ella. La asignación queda registrada con usuario y hora de inicio.</p>
+      </div>
+      <div class="estado-card resuelta">
+        <div class="estado-dot">🟢</div>
+        <div class="estado-label">Completada</div>
+        <h3>Resuelta</h3>
+        <p>Informe técnico completado y validado. La incidencia pasa al histórico estructurado y consultable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <div class="fade-up">
+    <div class="section-tag" style="display:inline-block; margin-bottom:1.5rem;">BJR Technician Services · IES Pere Maria Orts i Bosch</div>
+    <h2>¿Listo para implementarlo?</h2>
+    <p>Este sistema está diseñado para ser desplegado en entornos reales de empresa con equipos de servicio técnico.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a href="#arquitectura" class="btn-primary">Ver arquitectura técnica →</a>
+      <a href="#flujo" class="btn-ghost">Revisar el flujo</a>
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-mark">BJR</div>
+    BJR Technician Services
+  </div>
+  <ul class="footer-links">
+    <li><a href="#arquitectura">Arquitectura</a></li>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#flujo">Flujo</a></li>
+    <li><a href="#seguridad">Seguridad</a></li>
+  </ul>
+  <div class="footer-copy">Juan Francisco · Bogdan · Rubén — IES Pere Maria Orts i Bosch · <span id="footer-year"></span></div>
+</footer>
+ 
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+ 
+<script src="main.js"></script>
 </body>
 </html>
