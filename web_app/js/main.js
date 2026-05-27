@@ -211,4 +211,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('footer-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+
+  /* ------------------------------------------
+     10. API: cargar estados desde la BD
+  ------------------------------------------ */
+  const API_URL = '/api/estados';
+
+  const cargarEstados = async () => {
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('Error HTTP ' + res.status);
+      const data = await res.json();
+
+      const secciones = ['cola', 'curso', 'resuelta'];
+      secciones.forEach(seccion => {
+        const grupo = data[seccion];
+        const countEl = document.getElementById('count-' + seccion);
+        const listEl = document.getElementById('list-' + seccion);
+
+        if (countEl) {
+          countEl.textContent = '(' + grupo.total + ')';
+        }
+
+        if (listEl) {
+          listEl.innerHTML = '';
+          if (grupo.items.length === 0) {
+            listEl.innerHTML = '<li class="incidencia-vacia">No hay incidencias</li>';
+          } else {
+            grupo.items.forEach(item => {
+              const li = document.createElement('li');
+              const prioridadClase = 'badge-' + (item.prioridad || 'baja').toLowerCase();
+              li.innerHTML = ''
+                + '<span class="id-ref">#' + item.id_incidencia + '</span>'
+                + '<span class="badge ' + prioridadClase + '">' + (item.prioridad || '') + '</span>'
+                + '<span>' + (item.descripcion || 'Sin descripción') + '</span>'
+                + '<span style="margin-left:auto;font-size:0.7rem;color:var(--gray-mid);">' + (item.puesto || '') + '</span>';
+              listEl.appendChild(li);
+            });
+          }
+        }
+      });
+
+    } catch (err) {
+      console.error('Error al cargar estados:', err);
+      document.querySelectorAll('.incidencia-list').forEach(el => {
+        el.innerHTML = '<li class="incidencia-vacia">Error al conectar con la BD</li>';
+      });
+    }
+  };
+
+  cargarEstados();
+  setInterval(cargarEstados, 15000);
+
 });

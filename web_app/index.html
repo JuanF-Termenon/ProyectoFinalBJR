@@ -193,24 +193,27 @@
       <h2 class="section-title">Visibilidad en tiempo real</h2>
       <p class="section-sub" style="margin:0 auto;">Tres estados codificados por color que reflejan el ciclo completo de cualquier incidencia en el panel operativo.</p>
     </div>
-    <div class="estados-grid fade-up">
-      <div class="estado-card en-cola">
+    <div class="estados-grid fade-up" id="estados-grid">
+      <div class="estado-card en-cola" data-estado="cola">
         <div class="estado-dot">🔴</div>
         <div class="estado-label">Sin atender</div>
-        <h3>En cola</h3>
-        <p>La incidencia ha sido registrada pero aún no ha sido asumida por ningún técnico. Requiere atención inmediata.</p>
+        <h3>En cola <span class="estado-count" id="count-cola">(0)</span></h3>
+        <p>Incidencias reportadas pendientes de asignación.</p>
+        <ul class="incidencia-list" id="list-cola"></ul>
       </div>
-      <div class="estado-card en-curso">
+      <div class="estado-card en-curso" data-estado="curso">
         <div class="estado-dot">🟡</div>
         <div class="estado-label">Trabajando</div>
-        <h3>En curso</h3>
-        <p>Uno o varios técnicos están trabajando en ella. La asignación queda registrada con usuario y hora de inicio.</p>
+        <h3>En curso <span class="estado-count" id="count-curso">(0)</span></h3>
+        <p>Incidencias siendo atendidas por el equipo técnico.</p>
+        <ul class="incidencia-list" id="list-curso"></ul>
       </div>
-      <div class="estado-card resuelta">
+      <div class="estado-card resuelta" data-estado="resuelta">
         <div class="estado-dot">🟢</div>
         <div class="estado-label">Completada</div>
-        <h3>Resuelta</h3>
-        <p>Informe técnico completado y validado. La incidencia pasa al histórico estructurado y consultable.</p>
+        <h3>Resuelta <span class="estado-count" id="count-resuelta">(0)</span></h3>
+        <p>Incidencias cerradas con informe técnico.</p>
+        <ul class="incidencia-list" id="list-resuelta"></ul>
       </div>
     </div>
   </div>

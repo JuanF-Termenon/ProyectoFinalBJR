@@ -553,7 +553,60 @@ section { padding: 6rem 4rem; }
 }
  
 .estado-card p { font-size: 0.85rem; color: var(--gray-mid); line-height: 1.6; }
- 
+
+.estado-count {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gray-mid);
+}
+
+.incidencia-list {
+  list-style: none;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.incidencia-list li {
+  font-size: 0.78rem;
+  color: var(--gray-light);
+  padding: 0.4rem 0.6rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.incidencia-list li .badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-baja    { background: rgba(150,147,142,0.3); color: var(--gray-light); }
+.badge-media   { background: rgba(200,140,30,0.3);  color: #d4a040; }
+.badge-alta    { background: rgba(210,60,60,0.3);   color: #e87070; }
+.badge-critica { background: rgba(210,60,60,0.5);   color: #ff9090; }
+
+.incidencia-list li .id-ref {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--teal);
+  font-size: 0.72rem;
+  min-width: 2.5rem;
+}
+
+.incidencia-vacia {
+  font-size: 0.78rem;
+  color: var(--gray-mid);
+  font-style: italic;
+  padding: 0.4rem 0;
+}
  
 /* ============================================
    CTA
