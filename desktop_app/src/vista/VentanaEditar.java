@@ -134,7 +134,7 @@ public class VentanaEditar extends JFrame {
 		lblNewLabel_9.setBounds(292, 266, 48, 14);
 		contentPane.add(lblNewLabel_9);
 		
-		comboBox = new JComboBox(new String[] {"ABIERTA", "EN_PROGRESO", "RESUELTA", "CERRADA"});
+		comboBox = new JComboBox<>(new String[] {"ABIERTA", "EN_PROGRESO", "RESUELTA", "CERRADA"});
 		comboBox.setBounds(290, 295, 118, 22);
 		contentPane.add(comboBox);
 		
