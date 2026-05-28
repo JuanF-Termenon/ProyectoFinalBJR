@@ -23,7 +23,12 @@ public class ConnectionFactory {
 	 * servidor está offline.
 	 */
 	public static Connection getConnection() throws SQLException {
-		// Utiliza el driver de PostgreSQL
 		return DriverManager.getConnection(URL, USER, PASS);
+	}
+
+	public static void setSessionUser(Connection conn, int userId) throws SQLException {
+		try (var stmt = conn.createStatement()) {
+			stmt.execute("SET st.usuario_activo = " + userId);
+		}
 	}
 }

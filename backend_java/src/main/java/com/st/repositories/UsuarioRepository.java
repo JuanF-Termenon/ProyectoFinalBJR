@@ -14,6 +14,16 @@ import java.util.ArrayList;
  */
 public class UsuarioRepository {
 
+	private int userId;
+
+	public UsuarioRepository() {
+		this.userId = 0;
+	}
+
+	public UsuarioRepository(int userId) {
+		this.userId = userId;
+	}
+
 	/**
 	 * Recupera todos los usuarios con sus respectivos roles mediante un JOIN.
 	 * 
@@ -76,8 +86,17 @@ public class UsuarioRepository {
 	public boolean actualizarPassword(int idUsuario, String nuevoHash) throws SQLException {
 		String sql = "UPDATE usuario SET password_hash = ?, primer_acceso = FALSE WHERE id_usuario = ?";
 		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			if (userId > 0) ConnectionFactory.setSessionUser(conn, userId);
 			stmt.setString(1, nuevoHash);
 			stmt.setInt(2, idUsuario);
+			return stmt.executeUpdate() > 0;
+		}
+	}
+
+	public boolean actualizarUltimoLogin(int idUsuario) throws SQLException {
+		String sql = "UPDATE usuario SET ultimo_login = CURRENT_TIMESTAMP WHERE id_usuario = ?";
+		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setInt(1, idUsuario);
 			return stmt.executeUpdate() > 0;
 		}
 	}

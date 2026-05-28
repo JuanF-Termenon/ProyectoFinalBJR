@@ -11,6 +11,16 @@ import java.util.ArrayList;
  */
 public class IncidenciaRepository {
 
+	private int userId;
+
+	public IncidenciaRepository() {
+		this.userId = 0;
+	}
+
+	public IncidenciaRepository(int userId) {
+		this.userId = userId;
+	}
+
 	/*
 	 * Registra una nueva incidencia en el sistema. La base de datos asignará
 	 * automáticamente ID, estado 'ACTIVA' y fecha_creacion.
@@ -20,9 +30,9 @@ public class IncidenciaRepository {
 		String sql = "INSERT INTO incidencia (descripcion, prioridad, id_puesto, id_usuario_creador) VALUES (?, ?, ?, ?)";
 
 		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+			if (userId > 0) ConnectionFactory.setSessionUser(conn, userId);
 			stmt.setString(1, descripcion);
-			stmt.setString(2, prioridad.toUpperCase()); // Aseguramos MAYÚSCULAS para el CHECK del SQL
+			stmt.setString(2, prioridad.toUpperCase());
 			stmt.setInt(3, idPuesto);
 			stmt.setInt(4, idUsuario);
 
@@ -42,6 +52,7 @@ public class IncidenciaRepository {
 		String sql = "UPDATE incidencia SET estado = ?, id_usuario_cierre = ? WHERE id_incidencia = ?";
 
 		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			if (userId > 0) ConnectionFactory.setSessionUser(conn, userId);
 
 			stmt.setString(1, nuevoEstado.toUpperCase());
 			if (idUsuarioCierre != null) {
@@ -60,9 +71,32 @@ public class IncidenciaRepository {
 	 * 
 	 * @return ArrayList de objetos Incidencia mapeados desde la DB.
 	 */
+	public boolean eliminar(int idIncidencia) throws SQLException {
+		String sql = "DELETE FROM incidencia WHERE id_incidencia = ?";
+		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			if (userId > 0) ConnectionFactory.setSessionUser(conn, userId);
+			stmt.setInt(1, idIncidencia);
+			return stmt.executeUpdate() > 0;
+		}
+	}
+
+	public boolean actualizarPrioridad(int idIncidencia, String prioridad) throws SQLException {
+		String sql = "UPDATE incidencia SET prioridad = ? WHERE id_incidencia = ?";
+		try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			if (userId > 0) ConnectionFactory.setSessionUser(conn, userId);
+			stmt.setString(1, prioridad.toUpperCase());
+			stmt.setInt(2, idIncidencia);
+			return stmt.executeUpdate() > 0;
+		}
+	}
+
 	public ArrayList<Incidencia> findAll() throws SQLException {
 		ArrayList<Incidencia> lista = new ArrayList<>();
-		String sql = "SELECT * FROM incidencia ORDER BY fecha_creacion DESC";
+		String sql = "SELECT i.*, p.departamento, u.nombre_visible " +
+				"FROM incidencia i " +
+				"JOIN puesto p ON i.id_puesto = p.id_puesto " +
+				"LEFT JOIN usuario u ON i.id_usuario_creador = u.id_usuario " +
+				"ORDER BY i.fecha_creacion DESC";
 
 		try (Connection conn = ConnectionFactory.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -72,7 +106,9 @@ public class IncidenciaRepository {
 						rs.getString("prioridad"), rs.getString("estado"), rs.getTimestamp("fecha_creacion"),
 						rs.getTimestamp("fecha_inicio_atencion"), rs.getTimestamp("fecha_resolucion"),
 						rs.getInt("id_puesto"), rs.getInt("id_usuario_creador"),
-						(Integer) rs.getObject("id_usuario_cierre") // Maneja el null correctamente
+						(Integer) rs.getObject("id_usuario_cierre"),
+						rs.getString("departamento"),
+						rs.getString("nombre_visible")
 				));
 			}
 		}

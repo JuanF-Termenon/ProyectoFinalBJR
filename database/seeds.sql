@@ -4,16 +4,19 @@ SET st.usuario_activo = '1';
 -- ROLES
 INSERT INTO rol (id_rol, nombre_rol, descripcion) VALUES
 (1, 'Jefe ST', 'Administrador total del sistema'),
-(2, 'Técnico ST', 'Personal técnico de soporte');
+(2, 'Técnico ST', 'Personal técnico de soporte'),
+(3, 'Usuario', 'Usuario sin permisos de gestión');
 
 -- USUARIOS
 INSERT INTO usuario (id_usuario, username, password_hash, nombre_visible, primer_acceso, id_rol) VALUES
 (1, 'bbjf', '321efejst', 'Bebe Jefazo', FALSE, 1),
-(2, 'tectec', '321cetst', 'Tec Tec', TRUE, 2);
+(2, 'tectec', '321cetst', 'Tec Tec', FALSE, 2),
+(3, 'user', 'resust', 'Usuario Final', TRUE, 3);
 
 -- PUESTOS
-INSERT INTO puesto (id_puesto, codigo_puesto, departamento) VALUES
-(1, 'Central-01', 'Oficina Principal');
+INSERT INTO puesto (id_puesto, codigo_puesto, departamento, id_usuario) VALUES
+(1, 'Central-01', 'Oficina Principal', 2),
+(2, 'Central-02', 'Oficina Principal', 3);
 
 -- INCIDENCIAS
 INSERT INTO incidencia 
@@ -33,8 +36,7 @@ VALUES
 -- ASIGNACIONES
 INSERT INTO asignacion (id_incidencia, id_usuario_st, tipo_participacion)
 VALUES
-(1, 3, 'ASIGNADO'),
-(2, 4, 'ASIGNADO');
+(1, 2, 'ASIGNADO');
 
 -- CAMBIAR ESTADO 
 UPDATE incidencia
@@ -44,12 +46,12 @@ WHERE id_incidencia = 1;
 -- INFORME DE RESOLUCIÓN
 INSERT INTO informe_resolucion (informe, id_incidencia, id_usuario_st)
 VALUES
-('Se reconectó la alimentación eléctrica', 1, 3);
+('Se reconectó la alimentación eléctrica', 1, 2);
 
 -- CERRAR INCIDENCIA
 UPDATE incidencia
 SET estado = 'RESUELTA',
-    id_usuario_cierre = 3,
+    id_usuario_cierre = 2,
     fecha_resolucion = CURRENT_TIMESTAMP
 WHERE id_incidencia = 1;
 
