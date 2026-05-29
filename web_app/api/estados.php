@@ -26,20 +26,8 @@ try {
         $stmt->execute([$estado]);
         $total = (int) $stmt->fetchColumn();
 
-        $stmt2 = $conn->prepare(
-            "SELECT i.id_incidencia, i.descripcion, i.prioridad, i.estado,
-                    i.fecha_creacion, COALESCE(p.codigo_puesto, 'Desconocido') as puesto
-             FROM incidencia i
-             LEFT JOIN puesto p ON i.id_puesto = p.id_puesto
-             WHERE i.estado = ?
-             ORDER BY i.fecha_creacion DESC"
-        );
-        $stmt2->execute([$estado]);
-        $items = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
         $resultado[$key] = [
-            'total' => $total,
-            'items' => $items
+            'total' => $total
         ];
     }
 
