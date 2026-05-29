@@ -48,18 +48,16 @@ public class Login extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        // --- CABECERA ---
         JLabel lblTitle = new JLabel("ST Connect");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTitle.setBounds(10, 0, 115, 36);
         contentPane.add(lblTitle);
 
-        JLabel lblSub = new JLabel("Gestión de incidencias");
+        JLabel lblSub = new JLabel("Gesti\u00F3n de incidencias");
         lblSub.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lblSub.setBounds(10, 32, 115, 14);
         contentPane.add(lblSub);
 
-        // --- USUARIO ---
         JLabel lblUser = new JLabel("Usuario");
         lblUser.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblUser.setBounds(64, 69, 85, 14);
@@ -69,8 +67,7 @@ public class Login extends JFrame {
         inputUsuario.setBounds(64, 94, 295, 20);
         contentPane.add(inputUsuario);
 
-        // --- CONTRASEÑA ---
-        JLabel lblPass = new JLabel("Contraseña");
+        JLabel lblPass = new JLabel("Contrase\u00F1a");
         lblPass.setBounds(64, 139, 85, 14);
         contentPane.add(lblPass);
 
@@ -78,13 +75,11 @@ public class Login extends JFrame {
         inputContrasena.setBounds(64, 164, 295, 20);
         contentPane.add(inputContrasena);
 
-        // --- BOTÓN ENTRAR ---
         JButton btnLogin = new JButton("Entrar al sistema");
         btnLogin.setBackground(new Color(64, 128, 128));
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnLogin.setBounds(64, 220, 295, 41);
-        
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ejecutarLogin();
@@ -112,15 +107,15 @@ public class Login extends JFrame {
 
                 if (user.isPrimerAcceso()) {
                     String nuevaPass = JOptionPane.showInputDialog(this,
-                        "Es tu primer acceso. Introduce una nueva contraseña:",
-                        "Cambio de contraseña obligatorio",
+                        "Es tu primer acceso. Introduce una nueva contrase\u00F1a:",
+                        "Cambio de contrase\u00F1a obligatorio",
                         JOptionPane.WARNING_MESSAGE);
                     if (nuevaPass != null && !nuevaPass.trim().isEmpty()) {
                         String nuevoHash = Utils.simplificarHash(nuevaPass.trim());
                         repo.actualizarPassword(user.getIdUsuario(), nuevoHash);
                         user.setPrimerAcceso(false);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Debes cambiar la contraseña para continuar.");
+                        JOptionPane.showMessageDialog(this, "Debes cambiar la contrase\u00F1a para continuar.");
                         return;
                     }
                 }
@@ -129,12 +124,12 @@ public class Login extends JFrame {
                 principal.setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos (o cuenta inactiva).", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Usuario o contrase\u00F1a incorrectos (o cuenta inactiva).", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error crítico de conexión con la base de datos.", "Error SQL", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error cr\u00EDtico de conexi\u00F3n con la base de datos.", "Error SQL", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error inesperado: " + ex.getMessage());
