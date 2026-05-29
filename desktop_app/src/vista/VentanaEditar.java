@@ -63,76 +63,6 @@ public class VentanaEditar extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblNewLabel.setBounds(160, 15, 260, 45);
 		panel.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("ID");
-		lblNewLabel_1.setBounds(10, 89, 48, 14);
-		contentPane.add(lblNewLabel_1);
-		
-		lblID = new JLabel("New label");
-		lblID.setForeground(new Color(128, 128, 128));
-		lblID.setBounds(20, 113, 266, 14);
-		contentPane.add(lblID);
-		
-		JLabel lblNewLabel_2 = new JLabel("Titulo");
-		lblNewLabel_2.setBounds(10, 150, 48, 14);
-		contentPane.add(lblNewLabel_2);
-		
-		lblTitulo = new JLabel("New label");
-		lblTitulo.setForeground(new Color(128, 128, 128));
-		lblTitulo.setBounds(20, 175, 333, 14);
-		contentPane.add(lblTitulo);
-		
-		JLabel lblNewLabel_3 = new JLabel("Departamento");
-		lblNewLabel_3.setBounds(10, 212, 118, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		lblDepartamento = new JLabel("New label");
-		lblDepartamento.setForeground(new Color(128, 128, 128));
-		lblDepartamento.setBounds(20, 237, 266, 14);
-		contentPane.add(lblDepartamento);
-		
-		JLabel lblNewLabel_4 = new JLabel("Prioridad");
-		lblNewLabel_4.setBounds(10, 266, 76, 14);
-		contentPane.add(lblNewLabel_4);
-		
-		lblPrioridad = new JLabel("New label");
-		lblPrioridad.setForeground(new Color(128, 128, 128));
-		lblPrioridad.setBounds(20, 288, 266, 14);
-		contentPane.add(lblPrioridad);
-		
-		JLabel lblNewLabel_5 = new JLabel("Descripcion");
-		lblNewLabel_5.setBounds(10, 324, 76, 14);
-		contentPane.add(lblNewLabel_5);
-		
-		lblDescripcion = new JLabel("New label");
-		lblDescripcion.setForeground(new Color(128, 128, 128));
-		lblDescripcion.setBounds(20, 349, 266, 14);
-		contentPane.add(lblDescripcion);
-		
-		lblReportadoPor = new JLabel("");
-		lblReportadoPor.setForeground(new Color(128, 128, 128));
-		lblReportadoPor.setBounds(20, 410, 266, 14);
-		contentPane.add(lblReportadoPor);
-		
-		JLabel lblNewLabel_6 = new JLabel("Fecha Creación");
-		lblNewLabel_6.setBounds(10, 385, 76, 14);
-		contentPane.add(lblNewLabel_6);
-		
-		JLabel lblNewLabel_8 = new JLabel("Categoria");
-		lblNewLabel_8.setBounds(292, 212, 106, 14);
-		contentPane.add(lblNewLabel_8);
-		
-		lblCategoria = new JLabel("New label");
-		lblCategoria.setForeground(new Color(128, 128, 128));
-		lblCategoria.setBounds(302, 231, 156, 14);
-		contentPane.add(lblCategoria);
-		
-		JLabel lblNewLabel_9 = new JLabel("Estado");
-		lblNewLabel_9.setBounds(292, 266, 48, 14);
-		contentPane.add(lblNewLabel_9);
-		
-		comboBox = new JComboBox<>(new String[] {"ABIERTA", "EN_PROGRESO", "RESUELTA", "CERRADA"});
-		comboBox.setBounds(290, 295, 118, 22);
 
 		int idIncidencia = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 0).toString());
 		String descripcion = modelo.getValueAt(filaSeleccionada, 1).toString();
@@ -145,7 +75,6 @@ public class VentanaEditar extends JFrame {
 			Date fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaCreacion.replaceAll("\\..*", ""));
 			fechaCreacion = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(fecha);
 		} catch (Exception ex) {
-			// dejar como estaba si no se puede formatear
 		}
 
 		JLabel lblId = new JLabel("ID: " + idIncidencia);
@@ -218,6 +147,17 @@ public class VentanaEditar extends JFrame {
 		comboPrioridad.setBounds(395, 260, 130, 22);
 		contentPane.add(comboPrioridad);
 
+		JLabel lblPriValor = new JLabel(prioridad);
+		lblPriValor.setForeground(new Color(80, 80, 80));
+		lblPriValor.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPriValor.setBounds(395, 260, 130, 22);
+		lblPriValor.setVisible(false);
+		contentPane.add(lblPriValor);
+
+		boolean esTecnico = user.getRol().getIdRol() == 2;
+		comboPrioridad.setVisible(!esTecnico);
+		lblPriValor.setVisible(esTecnico);
+
 		JLabel lblInformeLabel = new JLabel("Informe de Resoluci\u00F3n:");
 		lblInformeLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblInformeLabel.setBounds(20, 330, 160, 20);
@@ -274,7 +214,7 @@ public class VentanaEditar extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int confirm = JOptionPane.showConfirmDialog(null,
-					"¿Seguro que quieres eliminar la incidencia #" + idIncidencia + "?",
+					"\u00BFSeguro que quieres eliminar la incidencia #" + idIncidencia + "?",
 					"Confirmar eliminaci\u00F3n", JOptionPane.YES_NO_OPTION);
 				if (confirm != JOptionPane.YES_OPTION) return;
 				try {
@@ -294,6 +234,7 @@ public class VentanaEditar extends JFrame {
 		btnEliminar.setBorderPainted(false);
 		btnEliminar.setFocusPainted(false);
 		btnEliminar.setBounds(144, 490, 126, 36);
+		if (user.getRol().getIdRol() != 1) btnEliminar.setVisible(false);
 		contentPane.add(btnEliminar);
 
 		JButton btnGuardarCambios = new JButton("Guardar cambios");
@@ -301,9 +242,7 @@ public class VentanaEditar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 		        try {
 		        	String nuevoEstado = comboBox.getSelectedItem().toString();
-		        	String nuevaPrioridad = comboPrioridad.getSelectedItem().toString();
 			        modelo.setValueAt(nuevoEstado, filaSeleccionada, 4);
-			        modelo.setValueAt(nuevaPrioridad, filaSeleccionada, 3);
 		        	IncidenciaRepository repo = new IncidenciaRepository(user.getIdUsuario());
 					if (nuevoEstado.equals("RESUELTA") && scrollInforme.isVisible()) {
 						String textoInforme = txtInforme.getText().trim();
@@ -313,7 +252,11 @@ public class VentanaEditar extends JFrame {
 						}
 					}
 					repo.actualizarEstado(idIncidencia, nuevoEstado, null);
-					repo.actualizarPrioridad(idIncidencia, nuevaPrioridad);
+					if (user.getRol().getIdRol() == 1) {
+						String nuevaPrioridad = comboPrioridad.getSelectedItem().toString();
+						modelo.setValueAt(nuevaPrioridad, filaSeleccionada, 3);
+						repo.actualizarPrioridad(idIncidencia, nuevaPrioridad);
+					}
 					ventana.cargarIncidencias();
 			        JOptionPane.showMessageDialog(null,
 			            "Cambios guardados correctamente.",
@@ -338,5 +281,47 @@ public class VentanaEditar extends JFrame {
 		btnGuardarCambios.setFocusPainted(false);
 		btnGuardarCambios.setBounds(290, 490, 126, 36);
 		contentPane.add(btnGuardarCambios);
+
+		// Técnico ST: botón "Asignarme" (auto-asignación)
+		if (user.getRol().getIdRol() == 2) {
+			JButton btnAsignar = new JButton("Asignarme");
+			btnAsignar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						IncidenciaRepository r = new IncidenciaRepository(user.getIdUsuario());
+						r.asignarTecnico(idIncidencia, user.getIdUsuario());
+						ventana.cargarIncidencias();
+						JOptionPane.showMessageDialog(null, "Incidencia #" + idIncidencia + " asignada correctamente.");
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, "Error al asignar: " + e1.getMessage());
+					}
+				}
+			});
+			btnAsignar.setBackground(new Color(0, 102, 153));
+			btnAsignar.setForeground(Color.WHITE);
+			btnAsignar.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnAsignar.setBorderPainted(false);
+			btnAsignar.setFocusPainted(false);
+			btnAsignar.setBounds(10, 490, 126, 36);
+			contentPane.add(btnAsignar);
+		}
+
+		// Jefe ST: botón "Ver historial"
+		if (user.getRol().getIdRol() == 1) {
+			JButton btnHistorial = new JButton("Ver historial");
+			btnHistorial.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VentanaHistorial vh = new VentanaHistorial(idIncidencia);
+					vh.setVisible(true);
+				}
+			});
+			btnHistorial.setBackground(new Color(0, 102, 153));
+			btnHistorial.setForeground(Color.WHITE);
+			btnHistorial.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnHistorial.setBorderPainted(false);
+			btnHistorial.setFocusPainted(false);
+			btnHistorial.setBounds(10, 490, 126, 36);
+			contentPane.add(btnHistorial);
+		}
 	}
 }
