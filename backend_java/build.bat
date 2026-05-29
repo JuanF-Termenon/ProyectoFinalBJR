@@ -5,13 +5,17 @@ if not exist "target\classes" mkdir "target\classes"
 
 C:\oracleJdk-25\bin\javac --release 21 -d "target\classes" ^
     "src\main\java\com\st\database\ConnectionFactory.java" ^
+    "src\main\java\com\st\models\Historial.java" ^
     "src\main\java\com\st\models\Incidencia.java" ^
     "src\main\java\com\st\models\Informe.java" ^
+    "src\main\java\com\st\models\Nota.java" ^
     "src\main\java\com\st\models\Puesto.java" ^
     "src\main\java\com\st\models\Rol.java" ^
     "src\main\java\com\st\models\Usuario.java" ^
+    "src\main\java\com\st\repositories\HistorialRepository.java" ^
     "src\main\java\com\st\repositories\IncidenciaRepository.java" ^
     "src\main\java\com\st\repositories\InformeRepository.java" ^
+    "src\main\java\com\st\repositories\NotaRepository.java" ^
     "src\main\java\com\st\repositories\PuestoRepository.java" ^
     "src\main\java\com\st\repositories\RolRepository.java" ^
     "src\main\java\com\st\repositories\UsuarioRepository.java" ^

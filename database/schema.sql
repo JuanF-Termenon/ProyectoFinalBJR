@@ -127,6 +127,17 @@ CREATE TABLE historial_incidencia (
         REFERENCES usuario(id_usuario)
 );
 
+-- Nota Interna
+CREATE TABLE nota_interna (
+    id_nota SERIAL PRIMARY KEY,
+    nota TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_incidencia INT NOT NULL,
+    id_usuario INT NOT NULL,
+    CONSTRAINT fk_nota_incidencia FOREIGN KEY (id_incidencia) REFERENCES incidencia(id_incidencia) ON DELETE CASCADE,
+    CONSTRAINT fk_nota_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
 -- Auditoria
 CREATE TABLE auditoria (
     id_auditoria SERIAL PRIMARY KEY,
