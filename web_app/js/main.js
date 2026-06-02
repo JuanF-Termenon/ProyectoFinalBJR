@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------------------
      10. API: cargar estados desde la BD
   ------------------------------------------ */
-  const API_URL = '/api/estados.php';
+  const API_URL = 'api/estados.php';
 
 const cargarEstados = async () => {
   try {
