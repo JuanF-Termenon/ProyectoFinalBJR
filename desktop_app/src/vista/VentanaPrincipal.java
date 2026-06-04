@@ -289,7 +289,7 @@ public class VentanaPrincipal extends JFrame {
         contentPane.add(btnExportar);
     }
 
-    private void exportarCSV() {
+    public void exportarCSV() {
         try {
             javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
             fc.setSelectedFile(new java.io.File("incidencias_export.csv"));

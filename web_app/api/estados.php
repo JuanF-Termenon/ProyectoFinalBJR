@@ -2,7 +2,7 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-$host = 'localhost';
+$host = '10.170.210.122';
 $port = '5432';
 $dbname = 'SistemaGestor';
 $user = 'postgres';

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-language="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,25 +17,29 @@
     ST Connect
   </a>
   <ul class="nav-links">
-    <li><a href="#arquitectura">Arquitectura</a></li>
-    <li><a href="#roles">Roles</a></li>
-    <li><a href="#estados">Estados</a></li>
+    <li><a href="#arquitectura" data-i18n="nav_architecture">Arquitectura</a></li>
+    <li><a href="#roles" data-i18n="nav_roles">Roles</a></li>
+    <li><a href="#estados" data-i18n="nav_status">Estados</a></li>
  
-    <li><a href="#contacto" class="nav-cta">Acceder</a></li>
+    <li class="lang-item">
+        <button class="lang-btn active" data-lang="es" aria-label="Español">ES</button>
+        <span class="lang-sep">/</span>
+        <button class="lang-btn" data-lang="en" aria-label="English">EN</button>
+    </li>
   </ul>
-  <button class="nav-hamburger" aria-label="Abrir menú">
+  <button class="nav-hamburger" aria-label="Abrir menú" data-i18n-aria="nav_menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
  
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-tag">ST Connect · Servicio Técnico</div>
-  <h1>Gestión de incidencias técnicas</h1>
-  <p class="hero-sub">Plataforma centralizada para reportar, asignar y resolver incidencias técnicas desde cualquier puesto de trabajo. Rápido, trazable y seguro.</p>
+  <div class="hero-tag" data-i18n="hero_tag">ST Connect · Servicio Técnico</div>
+  <h1 data-i18n="hero_title">Gestión de incidencias técnicas</h1>
+  <p class="hero-sub" data-i18n="hero_sub">Plataforma centralizada para reportar, asignar y resolver incidencias técnicas desde cualquier puesto de trabajo. Rápido, trazable y seguro.</p>
   <div class="hero-actions">
    
-    <a href="#roles" class="btn-ghost">Explorar roles →</a>
+    <a href="#roles" class="btn-ghost" data-i18n="hero_btn">Explorar roles →</a>
   </div>
 </section>
  
@@ -43,39 +47,39 @@
 <section class="arch-section" id="arquitectura">
   <div class="arch-inner">
     <div class="fade-up">
-      <div class="section-tag">Arquitectura</div>
-      <h2 class="section-title">Cuatro componentes,<br>un sistema unificado</h2>
-      <p class="section-sub" style="margin-bottom:2rem;">La arquitectura separa responsabilidades con claridad: los clientes solo hablan con el backend, y únicamente el backend accede a la base de datos.</p>
+      <div class="section-tag" data-i18n="arch_tag">Arquitectura</div>
+      <h2 class="section-title" data-i18n="arch_title">Cuatro componentes,<br>un sistema unificado</h2>
+      <p class="section-sub" style="margin-bottom:2rem;" data-i18n="arch_sub">La arquitectura separa responsabilidades con claridad: los clientes solo hablan con el backend, y únicamente el backend accede a la base de datos.</p>
     </div>
     <div class="arch-diagram fade-up">
       <div class="arch-card">
         <div class="arch-card-icon">
           <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         </div>
-        <h4>App de escritorio</h4>
-        <p>Instalada en puestos fijos. Inicio automático, acceso rápido para reportar incidencias sin abrir navegador.</p>
+        <h4 data-i18n="arch_card1_title">App de escritorio</h4>
+        <p data-i18n="arch_card1_desc">Instalada en puestos fijos. Inicio automático, acceso rápido para reportar incidencias sin abrir navegador.</p>
       </div>
       <div class="arch-card">
         <div class="arch-card-icon">
           <svg viewBox="0 0 24 24"><path d="M12 18H12.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
         </div>
-        <h4>Aplicación web</h4>
-        <h6>Proximamente</h6>
-        <p>Responsive. Acceso desde móvil, tablet u ordenador externo sin instalación previa.</p>
+        <h4 data-i18n="arch_card2_title">Aplicación web</h4>
+        <h6 data-i18n="arch_card2_badge">Proximamente</h6>
+        <p data-i18n="arch_card2_desc">Responsive. Acceso desde móvil, tablet u ordenador externo sin instalación previa.</p>
       </div>
       <div class="arch-card featured">
         <div class="arch-card-icon">
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <h4>Backend central</h4>
-        <p>Autenticación, reglas de negocio, gestión de estados, exportaciones y auditoría. Único punto de acceso a la base de datos.</p>
+        <h4 data-i18n="arch_card3_title">Backend central</h4>
+        <p data-i18n="arch_card3_desc">Autenticación, reglas de negocio, gestión de estados, exportaciones y auditoría. Único punto de acceso a la base de datos.</p>
       </div>
       <div class="arch-card" style="grid-column: span 2;">
         <div class="arch-card-icon">
           <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
         </div>
-        <h4>Base de datos</h4>
-        <p>Almacena usuarios, puestos, incidencias, estados, históricos, informes, auditoría y configuraciones del sistema.</p>
+        <h4 data-i18n="arch_card4_title">Base de datos</h4>
+        <p data-i18n="arch_card4_desc">Almacena usuarios, puestos, incidencias, estados, históricos, informes, auditoría y configuraciones del sistema.</p>
       </div>
     </div>
   </div>
@@ -85,42 +89,42 @@
 <section id="roles">
   <div class="roles-section">
     <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto;">
-      <div class="section-tag">Usuarios y roles</div>
-      <h2 class="section-title">Cada usuario, en su contexto</h2>
-      <p class="section-sub" style="margin:0 auto;">Sistema de permisos RBAC con cuatro niveles de acceso, adaptados al flujo real del servicio técnico.</p>
+      <div class="section-tag" data-i18n="roles_tag">Usuarios y roles</div>
+      <h2 class="section-title" data-i18n="roles_title">Cada usuario, en su contexto</h2>
+      <p class="section-sub" style="margin:0 auto;" data-i18n="roles_sub">Sistema de permisos RBAC con cuatro niveles de acceso, adaptados al flujo real del servicio técnico.</p>
     </div>
     <div class="roles-grid">
       <div class="role-card fade-up">
-        <span class="role-badge op">Operario</span>
-        <h3>Puesto de trabajo</h3>
-        <p>Representa un área física como TP01 o Prensa04. Enfocado en la rapidez de reporte.</p>
+        <span class="role-badge op" data-i18n="role1_badge">Operario</span>
+        <h3 data-i18n="role1_title">Puesto de trabajo</h3>
+        <p data-i18n="role1_desc">Representa un área física como TP01 o Prensa04. Enfocado en la rapidez de reporte.</p>
         <ul class="role-perms">
-          <li>Iniciar sesión con usuario de puesto</li>
-          <li>Reportar incidencia con formulario mínimo</li>
-          <li>Descripción breve opcional</li>
-          <li>Ver estado de su última incidencia</li>
+          <li data-i18n="role1_perm1">Iniciar sesión con usuario de puesto</li>
+          <li data-i18n="role1_perm2">Reportar incidencia con formulario mínimo</li>
+          <li data-i18n="role1_perm3">Descripción breve opcional</li>
+          <li data-i18n="role1_perm4">Ver estado de su última incidencia</li>
         </ul>
       </div>
       <div class="role-card fade-up">
-        <span class="role-badge tech">Técnico ST</span>
-        <h3>Técnico de Servicio Técnico</h3>
-        <p>Cuenta personal por técnico. Gestión completa del ciclo de vida del ticket.</p>
+        <span class="role-badge tech" data-i18n="role2_badge">Técnico ST</span>
+        <h3 data-i18n="role2_title">Técnico de Servicio Técnico</h3>
+        <p data-i18n="role2_desc">Cuenta personal por técnico. Gestión completa del ciclo de vida del ticket.</p>
         <ul class="role-perms">
-          <li>Ver y filtrar todas las incidencias</li>
-          <li>Asignarse y cambiar estados</li>
-          <li>Añadir notas internas</li>
-          <li>Cerrar con informe obligatorio</li>
+          <li data-i18n="role2_perm1">Ver y filtrar todas las incidencias</li>
+          <li data-i18n="role2_perm2">Asignarse y cambiar estados</li>
+          <li data-i18n="role2_perm3">Añadir notas internas</li>
+          <li data-i18n="role2_perm4">Cerrar con informe obligatorio</li>
         </ul>
       </div>
       <div class="role-card fade-up">
-        <span class="role-badge jefe">Jefe ST</span>
-        <h3>Jefe de Servicio Técnico</h3>
-        <p>Supervisión global del departamento. Acceso a métricas y exportaciones avanzadas.</p>
+        <span class="role-badge jefe" data-i18n="role3_badge">Jefe ST</span>
+        <h3 data-i18n="role3_title">Jefe de Servicio Técnico</h3>
+        <p data-i18n="role3_desc">Supervisión global del departamento. Acceso a métricas y exportaciones avanzadas.</p>
         <ul class="role-perms">
-          <li>Histórico completo de incidencias</li>
-          <li>Exportar por rango de fechas / filtros</li>
-          <li>Estadísticas por técnico y categoría</li>
-          <li>Rendimiento global del departamento</li>
+          <li data-i18n="role3_perm1">Histórico completo de incidencias</li>
+          <li data-i18n="role3_perm2">Exportar por rango de fechas / filtros</li>
+          <li data-i18n="role3_perm3">Estadísticas por técnico y categoría</li>
+          <li data-i18n="role3_perm4">Rendimiento global del departamento</li>
         </ul>
       </div>
     </div>
@@ -131,32 +135,32 @@
 <section class="estado-section" id="estados">
   <div class="estados-inner">
     <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto;">
-      <div class="section-tag">Estados</div>
-      <h2 class="section-title">Visibilidad en tiempo real</h2>
-      <p class="section-sub" style="margin:0 auto;">Tres estados codificados por color que reflejan el ciclo completo de cualquier incidencia en el panel operativo.</p>
+      <div class="section-tag" data-i18n="status_tag">Estados</div>
+      <h2 class="section-title" data-i18n="status_title">Visibilidad en tiempo real</h2>
+      <p class="section-sub" style="margin:0 auto;" data-i18n="status_sub">Tres estados codificados por color que reflejan el ciclo completo de cualquier incidencia en el panel operativo.</p>
     </div>
     <div class="estados-grid fade-up" id="estados-grid">
       <div class="estado-card en-cola" data-estado="cola">
         <div class="estado-dot">🔴</div>
-        <div class="estado-label">Sin atender</div>
-        <h3>En cola</h3>
-        <p>Incidencias reportadas pendientes de asignación.</p>
+        <div class="estado-label" data-i18n="status1_label">Sin atender</div>
+        <h3 data-i18n="status1_title">En cola</h3>
+        <p data-i18n="status1_desc">Incidencias reportadas pendientes de asignación.</p>
         <div class="estado-number" id="num-cola">0</div>
         <ul class="incidencia-list" id="list-cola"></ul>
       </div>
       <div class="estado-card en-curso" data-estado="curso">
         <div class="estado-dot">🟡</div>
-        <div class="estado-label">Trabajando</div>
-        <h3>En curso</h3>
-        <p>Incidencias siendo atendidas por el equipo técnico.</p>
+        <div class="estado-label" data-i18n="status2_label">Trabajando</div>
+        <h3 data-i18n="status2_title">En curso</h3>
+        <p data-i18n="status2_desc">Incidencias siendo atendidas por el equipo técnico.</p>
         <div class="estado-number" id="num-curso">0</div>
         <ul class="incidencia-list" id="list-curso"></ul>
       </div>
       <div class="estado-card resuelta" data-estado="resuelta">
         <div class="estado-dot">🟢</div>
-        <div class="estado-label">Completada</div>
-        <h3>Resuelta</h3>
-        <p>Incidencias cerradas con informe técnico.</p>
+        <div class="estado-label" data-i18n="status3_label">Completada</div>
+        <h3 data-i18n="status3_title">Resuelta</h3>
+        <p data-i18n="status3_desc">Incidencias cerradas con informe técnico.</p>
         <div class="estado-number" id="num-resuelta">0</div>
         <ul class="incidencia-list" id="list-resuelta"></ul>
       </div>
@@ -167,11 +171,11 @@
 <!-- CTA -->
 <section class="cta-section" id="contacto">
   <div class="fade-up">
-    <div class="section-tag" style="display:inline-block; margin-bottom:1.5rem;">ST Connect · IES Pere Maria Orts i Bosch</div>
-    <h2>¿Listo para implementarlo?</h2>
-    <p>Este sistema está diseñado para ser desplegado en entornos reales de empresa con equipos de servicio técnico.</p>
+    <div class="section-tag" style="display:inline-block; margin-bottom:1.5rem;" data-i18n="cta_tag">ST Connect · IES Pere Maria Orts i Bosch</div>
+    <h2 data-i18n="cta_title">¿Listo para implementarlo?</h2>
+    <p data-i18n="cta_desc">Este sistema está diseñado para ser desplegado en entornos reales de empresa con equipos de servicio técnico.</p>
     <div class="hero-actions" style="justify-content:center;">
-      <a href="#arquitectura" class="btn-primary">Ver arquitectura técnica →</a>
+      <a href="#arquitectura" class="btn-primary" data-i18n="cta_btn">Ver arquitectura técnica →</a>
     </div>
   </div>
 </section>
@@ -183,11 +187,11 @@
     ST Connect
   </div>
   <ul class="footer-links">
-    <li><a href="#arquitectura">Arquitectura</a></li>
-    <li><a href="#roles">Roles</a></li>
-    <li><a href="#seguridad">Seguridad</a></li>
+    <li><a href="#arquitectura" data-i18n="nav_architecture">Arquitectura</a></li>
+    <li><a href="#roles" data-i18n="nav_roles">Roles</a></li>
+    <li><a href="#seguridad" data-i18n="footer_security">Seguridad</a></li>
   </ul>
-  <div class="footer-copy">Juan Francisco · Bogdan · Rubén — IES Pere Maria Orts i Bosch · <span id="footer-year"></span></div>
+  <div class="footer-copy" data-i18n="footer_copy">Juan Francisco · Bogdan · Rubén — IES Pere Maria Orts i Bosch · <span id="footer-year"></span></div>
 </footer>
  
  
