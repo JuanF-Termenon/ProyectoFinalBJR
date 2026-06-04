@@ -1,5 +1,5 @@
 -- Para probar los triggers
--- SET st.usuario_activo = '1';
+ SET st.usuario_activo = '1';
 
 -- ROLES
 INSERT INTO rol (id_rol, nombre_rol, descripcion) VALUES

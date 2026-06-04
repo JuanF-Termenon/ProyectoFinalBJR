@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectionFactory {
-    private static final String URL = "jdbc:postgresql://localhost:5432/SistemaGestor";
+    private static final String URL = "jdbc:postgresql://192.168.1.136:5432/SistemaGestor";
     private static final String USER = "postgres";
     private static final String PASS = "pass";
 
