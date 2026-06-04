@@ -1,5 +1,5 @@
 /* ============================================
-   BJR Technician Services — main.js
+   ST Connect — main.js
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {

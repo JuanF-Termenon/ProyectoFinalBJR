@@ -50,7 +50,7 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnEstadisticas = new JButton("Ver estad\u00EDsticas");
 
     public VentanaPrincipal(Login login, Usuario user) {
-        setTitle("BJR Technician Services");
+        setTitle("ST Connect");
         this.user = user;
         this.repo = new IncidenciaRepository(user.getIdUsuario());
 
@@ -79,7 +79,7 @@ public class VentanaPrincipal extends JFrame {
         if (user.getRol().getIdRol() == 3) {
             try {
                 PuestoRepository pRepo = new PuestoRepository();
-                var puesto = pRepo.findByUsuarioId(user.getIdUsuario());
+                com.st.models.Puesto puesto = pRepo.findByUsuarioId(user.getIdUsuario());
                 if (puesto != null) bienvenida += " (" + puesto.getCodigoPuesto() + ")";
             } catch (SQLException ex) {
                 ex.printStackTrace();

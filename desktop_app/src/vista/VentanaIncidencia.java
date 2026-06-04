@@ -34,7 +34,7 @@ public class VentanaIncidencia extends JFrame {
     private Usuario user;
 
     public VentanaIncidencia(VentanaPrincipal ventana, DefaultTableModel modelo, Usuario user) {
-        setTitle("BJR Technician Services");
+        setTitle("ST Connect");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(410, 100, 450, 430);
         this.setLocationRelativeTo(null);

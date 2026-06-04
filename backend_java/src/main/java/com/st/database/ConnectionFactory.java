@@ -3,6 +3,7 @@ package com.st.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ConnectionFactory {
     private static final String URL = "jdbc:postgresql://localhost:5432/SistemaGestor";
@@ -14,7 +15,7 @@ public class ConnectionFactory {
     }
 
     public static void setSessionUser(Connection conn, int userId) throws SQLException {
-        try (var stmt = conn.createStatement()) {
+        try (Statement stmt = conn.createStatement()) {
             stmt.execute("SET st.usuario_activo = " + userId);
         }
     }

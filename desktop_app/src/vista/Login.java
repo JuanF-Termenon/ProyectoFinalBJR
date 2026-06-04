@@ -39,7 +39,7 @@ public class Login extends JFrame {
     }
 
     public Login() {
-        setTitle("BJR Technician Services");
+        setTitle("ST Connect");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 100, 450, 376);
         this.setLocationRelativeTo(null);

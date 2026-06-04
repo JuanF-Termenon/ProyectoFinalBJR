@@ -45,7 +45,7 @@ public class VentanaEditar extends JFrame {
     private JTextArea txtNotas;
 
     public VentanaEditar(VentanaPrincipal ventana, DefaultTableModel modelo, int filaSeleccionada, Usuario user) {
-        setTitle("BJR Technician Services");
+        setTitle("ST Connect");
         this.ventana = ventana;
         this.modelo = modelo;
         this.filaSeleccionada = filaSeleccionada;
