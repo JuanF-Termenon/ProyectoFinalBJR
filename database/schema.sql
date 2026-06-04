@@ -69,7 +69,6 @@ CREATE TABLE incidencia (
 CREATE TABLE asignacion (
     id_asignacion SERIAL PRIMARY KEY,
     fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_fin TIMESTAMP,
     tipo_participacion VARCHAR(20) NOT NULL CHECK (tipo_participacion IN ('ASIGNADO', 'APOYO', 'SUPERVISION', 'CIERRE')),
 
     id_incidencia INT NOT NULL,
@@ -111,7 +110,6 @@ CREATE TABLE historial_incidencia (
         CHECK (accion IN ('CREAR', 'CAMBIAR_ESTADO', 'ASIGNAR', 'RESOLVER', 'REABRIR', 'CANCELAR')),
     estado_anterior VARCHAR(15),
     estado_nuevo VARCHAR(15),
-    comentario TEXT,
     fecha_evento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     id_incidencia INT NOT NULL,
@@ -138,26 +136,7 @@ CREATE TABLE nota_interna (
     CONSTRAINT fk_nota_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- Auditoria
-CREATE TABLE auditoria (
-    id_auditoria SERIAL PRIMARY KEY,
-    tabla_objetivo VARCHAR(50) NOT NULL,
-    registro_id INT NOT NULL,
-    operacion VARCHAR(20) NOT NULL,
-    campo VARCHAR(50),
-    valor_anterior TEXT,
-    valor_nuevo TEXT,
-    fecha_evento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ip VARCHAR(50),
-    user_agent TEXT,
-    metadata JSONB,
 
-    id_usuario INT,
-
-    CONSTRAINT fk_auditoria_usuario
-        FOREIGN KEY (id_usuario)
-        REFERENCES usuario(id_usuario)
-);
 
 -- TRIGGERS
 -- Cada vez que cambia el estado → guardar en historial.
@@ -246,53 +225,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_historial_asignacion
 AFTER INSERT ON asignacion
 FOR EACH ROW EXECUTE FUNCTION fn_historial_asignacion();
-
--- Registrar INSERT / UPDATE / DELETE en tabla incidencia y usuario.
-CREATE OR REPLACE FUNCTION fn_auditoria()
-RETURNS TRIGGER AS $$
-DECLARE
-    v_usuario_id INT;
-    v_registro_id INT;
-BEGIN
-
-     v_usuario_id := NULLIF(current_setting('st.usuario_activo', true),'')::INT;
-
-    IF v_usuario_id IS NULL THEN
-        RAISE EXCEPTION 'Error de seguridad: Toda acción debe tener un usuario asociado.';
-    END IF;
-
-    IF TG_TABLE_NAME = 'incidencia' THEN
-        v_registro_id := COALESCE(NEW.id_incidencia, OLD.id_incidencia);
-
-    ELSE
-        RAISE EXCEPTION 'Tabla no soportada por auditoría: %', TG_TABLE_NAME;
-    END IF;
-
-    INSERT INTO auditoria (
-        tabla_objetivo,
-        registro_id,
-        operacion,
-        id_usuario
-    ) VALUES (
-        TG_TABLE_NAME,
-        v_registro_id,
-        TG_OP,
-        v_usuario_id
-    );
-
-    IF TG_OP = 'DELETE' THEN
-        RETURN OLD;
-    ELSE
-        RETURN NEW;
-    END IF;
-
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trg_auditoria_incidencia
-AFTER INSERT OR UPDATE OR DELETE ON incidencia
-FOR EACH ROW
-EXECUTE FUNCTION fn_auditoria();
 
 -- Evitar cerrar incidencia sin informe
 CREATE OR REPLACE FUNCTION fn_validar_cierre()
